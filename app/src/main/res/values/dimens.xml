@@ -1,0 +1,16 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- slidingmenu -->
+    <dimen name="shadow_width">15dp</dimen>
+    <dimen name="slidingmenu_offset">200dp</dimen>
+
+
+    <dimen name="tab_row_height">35dp</dimen>
+    <dimen name="tab_row_height1">120dp</dimen>
+    <dimen name="tab_col_width">60dp</dimen>
+    <dimen name="tab_et_size">12sp</dimen>
+    <dimen name="tab_bt_size">14sp</dimen>
+</resources>
