@@ -2,6 +2,7 @@ package com.zhilian.hzrf_oa.ui.leave.view;
 
 
 import com.zhilian.hzrf_oa.ui.leave.base.IBaseView;
+import com.zhilian.hzrf_oa.ui.leave.bean.ApplyBean;
 import com.zhilian.hzrf_oa.ui.leave.bean.LeaveRoot;
 import com.zhilian.hzrf_oa.ui.leave.bean.TodoItemBean;
 
@@ -16,4 +17,6 @@ public interface ILeaveView extends IBaseView {
     void onInitApprovesSuccess(LeaveRoot root);
 
     void onDisConnected();
+
+    void onCreateNewApply(ApplyBean applyBean);
 }

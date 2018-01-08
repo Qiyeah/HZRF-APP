@@ -9,3 +9,4 @@ public class LocalConstants implements Constants {
     public static String USER_NAME;
     public static String LIMIT;
 }
+

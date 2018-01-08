@@ -13,6 +13,7 @@ import com.zhilian.hzrf_oa.ui.leave.adapter.LeaveAdapter;
 import com.zhilian.hzrf_oa.ui.leave.base.BaseFragment;
 import com.zhilian.hzrf_oa.ui.leave.bean.LeaveDetailBean;
 import com.zhilian.hzrf_oa.ui.leave.bean.TodoItemBean;
+import com.zhilian.hzrf_oa.ui.leave.constant.Constants;
 import com.zhilian.hzrf_oa.ui.leave.constant.LocalConstants;
 import com.zhilian.hzrf_oa.ui.leave.util.LogUtil;
 
@@ -43,11 +44,11 @@ public class AppliesFragment extends BaseFragment {
     protected void initView() {
         mLvDraft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent = new Intent(getActivity(), LeaveDetailActivity.class);
-                intent.putExtra(LocalConstants.TASK_KEY, LocalConstants.TASK_TODO);
-                intent.putExtra(LocalConstants.DOC_ID, mDraftList.get(i).getDocid());
-                intent.putExtra(LocalConstants.IS_DONE, "0");
+                intent.putExtra("task", Constants.TASK_TODO);
+                intent.putExtra("doc_id", mDraftList.get(position).getDocid());
+                intent.putExtra("isdone", "0");
                 startActivity(intent);
             }
         });

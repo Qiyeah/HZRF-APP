@@ -19,8 +19,8 @@ public class LeaveDetailPresenter implements IBasePresenter ,LeaveDetailModel.Ca
         mModel = new LeaveDetailModel();
     }
 
-    public void getLeaveDetail(String queryName,String docid,String isdone) {
-        mModel.getLeaveDetail(queryName,docid,isdone,this);
+    public void getLeaveDetail(String docid,String isdone) {
+        mModel.getLeaveDetail(docid,isdone,this);
     }
 
     @Override

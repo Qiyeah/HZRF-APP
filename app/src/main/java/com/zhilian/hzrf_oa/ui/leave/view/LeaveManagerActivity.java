@@ -16,13 +16,14 @@ import com.zhilian.hzrf_oa.net_exception.ITimeOutException;
 import com.zhilian.hzrf_oa.net_exception.TimeOutException;
 import com.zhilian.hzrf_oa.ui.leave.base.BaseActivity;
 import com.zhilian.hzrf_oa.ui.leave.base.BaseFragment;
+import com.zhilian.hzrf_oa.ui.leave.bean.ApplyBean;
 import com.zhilian.hzrf_oa.ui.leave.bean.LeaveDetailBean;
 import com.zhilian.hzrf_oa.ui.leave.bean.LeaveRoot;
 import com.zhilian.hzrf_oa.ui.leave.bean.TodoItemBean;
+import com.zhilian.hzrf_oa.ui.leave.constant.Constants;
 import com.zhilian.hzrf_oa.ui.leave.constant.LocalConstants;
 import com.zhilian.hzrf_oa.ui.leave.presenter.LeavePresenter;
 import com.zhilian.hzrf_oa.ui.leave.util.CacheUtil;
-import com.zhilian.hzrf_oa.ui.leave.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,9 +60,6 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
     ImageView mIvSearch;
 
 
-    private String queryAppliesName = "getLeaveTodoList";
-    private String cacheApplyFileName = "apply.xml";
-    private String queryApprovesName = "getLeaveDoneList";
 
     private LeavePresenter mPresenter = null;
 
@@ -75,6 +73,7 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
     private List<BaseFragment> mTabs = new ArrayList<BaseFragment>();
     private ViewPager.OnPageChangeListener mPageChangeListener;
     private int index = 0;
+    private String fileName = "apply.xml";
 
     /**
      * 初始化页面数据
@@ -82,9 +81,9 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
     @Override
     public void initData() {
         mPresenter = new LeavePresenter(this);
-        mPresenter.initViewData(queryAppliesName, queryApprovesName);
-        mCacheApply = new CacheUtil(getApplicationContext(),cacheApplyFileName).
-            getObject(LocalConstants.CACHE_APPLY_KEY, LeaveDetailBean.class);
+        mPresenter.initViewData();
+        mCacheApply = new CacheUtil(getApplicationContext(),fileName).
+            getObject("leave", LeaveDetailBean.class);
         if (null != mCacheApply) {
             mTodoList.add(cache2TodoItem(mCacheApply));
         }
@@ -182,9 +181,14 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
         new TimeOutException().reLogin(getApplicationContext(), new ITimeOutException.CallBack() {
             @Override
             public void onReloginSuccess() {
-                mPresenter.initViewData(queryAppliesName,queryApprovesName);
+                mPresenter.initViewData();
             }
         });
+    }
+
+    @Override
+    public void onCreateNewApply(ApplyBean applyBean) {
+
     }
 
     /**
@@ -197,10 +201,17 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
 
     @OnClick(R.id.bt_apply)
     public void onMBtApplyClicked() {
+        //TODO 新申请请休假
+        try {
+            mPresenter.newAsk4Leave();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Intent intent = new Intent(this, LeaveDetailActivity.class);
-        intent.putExtra(LocalConstants.TASK_KEY, LocalConstants.TASK_NEW);
-        intent.putExtra(LocalConstants.DOC_ID, "111");
-        intent.putExtra(LocalConstants.IS_DONE, "0");
+        intent.putExtra("task", Constants.TASK_NEW);
+        intent.putExtra("doc_id","0");
+        intent.putExtra("isdone","0");
         startActivity(intent);
     }
 

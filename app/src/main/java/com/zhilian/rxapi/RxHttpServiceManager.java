@@ -2,6 +2,8 @@ package com.zhilian.rxapi;
 
 
 
+import com.zhilian.hzrf_oa.ui.leave.constant.Constants;
+
 import io.reactivex.android.BuildConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -32,7 +34,7 @@ public class RxHttpServiceManager {
 
         .build();
     private Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl(RxHttpServiceConstants.BASE_URL)
+        .baseUrl(Constants.BASE_URL)
        // .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

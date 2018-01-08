@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.zhilian.hzrf_oa.json.MailDetail;
-import com.zhilian.rxapi.RxHttpServiceConstants;
+import com.zhilian.hzrf_oa.ui.leave.constant.Constants;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class BusinessContant {
     public static final String SAVEPATH = "/mnt/sdcard/hzrf-oa/";
-    public final String Domain = RxHttpServiceConstants.BASE_URL;
+    public final String Domain = Constants.BASE_URL;
 //    public final String Domain = "http://192.168.9.124:8080/hzrf-oa";
 //   public final String Domain = "http://hzrfoa.vicp.io:25246/hzrf-oa";
 

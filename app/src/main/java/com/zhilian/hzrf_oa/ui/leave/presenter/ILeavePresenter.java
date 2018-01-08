@@ -5,5 +5,7 @@ package com.zhilian.hzrf_oa.ui.leave.presenter;
  */
 
 public interface ILeavePresenter {
-    void initViewData(String queryName1, String queryName2);
+    void initViewData();
+
+    void newAsk4Leave();
 }

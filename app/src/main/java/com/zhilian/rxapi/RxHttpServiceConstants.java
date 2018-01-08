@@ -17,33 +17,32 @@ import java.util.Map;
  * Created by sl on 2017-10-17.
  */
 
-public class RxHttpServiceConstants {
-    public static String USER_ID = null;
-    public static String CONFIRM_ID = null;
-    public static String APP_KEY = null;
-    public static String BASE_URL = "http://192.168.9.37:8083/";
-    public static String URL = null;
-    public static final String RESPONSE_ERROR = "用户登录超时！";
-    static {
-        String token = "1lj4hbato30kl1ppytwa1ueqdn";
-        String encodingAesKey = "InVjlo7czsOWrCSmTPgEUXBzlFnmqpNMQU3ZfilULHyHZiRjVUhxxWpexhYH6f4i";
-        Map<String, String> ret = Sign.sign(BASE_URL, token, encodingAesKey);
-        String signature = ret.get("signature");
-        String nonceStr = ret.get("nonceStr");
-        String timestamp = ret.get("timestamp");
-        Map<String, String> queryParas = ParaMap.create("accessToken", token)
-            .put("nonce", nonceStr)
-            .put("timestamp", timestamp)
-            .put("signature", signature)
-            .getData();
-        URL = RequestUtil.buildUrlWithQueryString(BASE_URL+"Api", queryParas);
-    }
+public interface RxHttpServiceConstants {
+    /**
+     * ************************************* 请求参数 ***************************************
+     */
+    String BASE_URL = "http://192.168.9.31:8083/";
+    //String BASE_URL = "http://www.zhiliantech.com:8083/ZhiLian-OA/";// 云服务器
+    String URL = null;
+    String TYPE_QUERY = "query";
+    String TYPE_SAVE = "save";
 
-//    public final static String BASE_URL = "http://www.zhiliantech.com:8083/ZhiLian-OA/Api/";// 云服务器
+    /**
+     * ************************************* 方法名 ***************************************
+     */
+    String QUERY_LEAVE_TODO = "getLeaveTodoList";//查询待办理请休假
+    String QUERY_LEAVE_DONE = "getLeaveDoneList";//查询已办理请休假
+    String QUERY_LEAVE_NEW = "";//查询新申请请休假
+    String QUERY_LEAVE_DETAIL= "LeaveDetail";//查询新申请请休假
+    String QUERY_LEAVE_DAYT = "";//查询可请假天数
+    String QUERY_FSONG = "fasong";//查询可请假天数
+    String QUERY_MY_LEAVE_LIST = "getMyLeaveList";// 获取我的请休假列表
+    String SAVE_OPINION = "editopinion";//意见保存
+    String SAVE_SELECT_MEN = "receivesave";//选人
 
-
-
-
-
+    /**
+     * ************************************* 错误反馈 ***************************************
+     */
+    String RESPONSE_ERROR = "用户登录超时！";
 
 }

@@ -271,6 +271,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     while ((line = reader.readLine()) != null) {
                         sb.append(line + "/n");
                     }
+            LogUtil.e("response:" + sb.toString());
                     JSONObject dataJson = new JSONObject(sb.toString());
                     String status = dataJson.getString("status");
                     String msg = dataJson.getString("msg");

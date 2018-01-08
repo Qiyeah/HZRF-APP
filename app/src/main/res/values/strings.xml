@@ -78,11 +78,12 @@
     </string-array>
 
     <string-array name="apply_types">
-        <item>--请选择--</item>
-        <item>婚假</item>
+        <item>年休假</item>
         <item>事假</item>
         <item>病假</item>
-        <item>调休假</item>
+        <item>婚丧假</item>
+        <item>产假</item>
+        <item>探亲假</item>
     </string-array>
     <string-array name="apply_dnames">
         <item>--请选择--</item>
@@ -99,5 +100,10 @@
         <item>--请选择--</item>
         <item>已婚</item>
         <item>未婚</item>
+    </string-array>
+    <string-array name="apply_dayt_type">
+        <item>多天</item>
+        <item>一天</item>
+        <item>半天</item>
     </string-array>
 </resources>

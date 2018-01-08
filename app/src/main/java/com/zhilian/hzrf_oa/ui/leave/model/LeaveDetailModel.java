@@ -1,10 +1,12 @@
 package com.zhilian.hzrf_oa.ui.leave.model;
 
+import com.google.gson.Gson;
 import com.zhilian.hzrf_oa.ui.leave.base.IBaseModel;
 import com.zhilian.hzrf_oa.ui.leave.bean.LeaveDetailBean;
+import com.zhilian.hzrf_oa.ui.leave.bean.TodoBean;
+import com.zhilian.hzrf_oa.ui.leave.constant.Constants;
 import com.zhilian.hzrf_oa.ui.leave.util.LogUtil;
 import com.zhilian.hzrf_oa.ui.leave.util.StrKit;
-import com.zhilian.rxapi.RxHttpServiceConstants;
 import com.zhilian.rxapi.RxHttpServiceManager;
 import com.zhilian.rxapi.RxHttpUtil;
 
@@ -21,16 +23,16 @@ import okhttp3.ResponseBody;
  */
 
 public class LeaveDetailModel implements IBaseModel {
-    public void getLeaveDetail(String queryName,String docid,String isdone, LeaveDetailModel.CallBack callback) {
-//        LogUtil.e("url = "+RxHttpServiceConstants.URL);
-//        LogUtil.e("data = "+RxHttpUtil.initQueryParams("query",queryName,15645456));
+    public void getLeaveDetail(String docid, String isdone, final LeaveDetailModel.CallBack callback) {
 
         HashMap<String, String> map = new HashMap<>();
         map.put("docid",docid);
         map.put("isdone",isdone);
+        LogUtil.e(docid);
+        LogUtil.e(isdone);
         RxHttpServiceManager.getInstance()
             .getRxApiService()
-            .getServerData(RxHttpServiceConstants.URL, RxHttpUtil.initQueryParams("query",queryName,map))
+            .getServerData(RxHttpUtil.initUrl(), RxHttpUtil.initQueryParams(Constants.TYPE_QUERY,Constants.QUERY_LEAVE_DETAIL,map))
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<ResponseBody>(){
@@ -39,8 +41,8 @@ public class LeaveDetailModel implements IBaseModel {
                     String json = responseBody.string().trim();
                     LogUtil.e("receive: "+json);
                     if(StrKit.notBlank(json)){
-//                        TodoBean bean = new Gson().fromJson(json,TodoBean.class);
-//                        callback.onGetLeaveDetailSuccess();
+                        LeaveDetailBean bean = new Gson().fromJson(json,LeaveDetailBean.class);
+                        callback.onGetLeaveDetailSuccess(bean);
                     }
                 }
             });
@@ -61,7 +63,7 @@ public class LeaveDetailModel implements IBaseModel {
         map.put("docid", "0");
         RxHttpServiceManager.getInstance()
             .getRxApiService()
-            .getServerData(RxHttpServiceConstants.URL, RxHttpUtil.initSaveParams("save",saveModel,map))
+            .getServerData(Constants.URL, RxHttpUtil.initSaveParams("save",saveModel,map))
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<ResponseBody>() {

@@ -4,11 +4,15 @@ import com.google.gson.GsonBuilder;
 import com.zhilian.api.ContextUtil;
 import com.zhilian.api.InQueryMsg;
 import com.zhilian.api.InSaveMsg;
+import com.zhilian.api.ParaMap;
+import com.zhilian.api.RequestUtil;
+import com.zhilian.api.Sign;
 import com.zhilian.api.StrKit;
+import com.zhilian.hzrf_oa.ui.leave.constant.Constants;
 import com.zhilian.hzrf_oa.ui.leave.constant.LocalConstants;
-import com.zhilian.hzrf_oa.ui.leave.util.LogUtil;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017-12-23.
@@ -29,5 +33,19 @@ public class RxHttpUtil {
         msg.setModelProperty(params);
         String postData = new GsonBuilder().disableHtmlEscaping().create().toJson(msg);
         return StrKit.notBlank(postData)?postData:"";
+    }
+    public static String initUrl(){
+        String token = "1lj4hbato30kl1ppytwa1ueqdn";
+        String encodingAesKey = "InVjlo7czsOWrCSmTPgEUXBzlFnmqpNMQU3ZfilULHyHZiRjVUhxxWpexhYH6f4i";
+        Map<String, String> ret = Sign.sign(Constants.URL, token, encodingAesKey);
+        String signature = ret.get("signature");
+        String nonceStr = ret.get("nonceStr");
+        String timestamp = ret.get("timestamp");
+        Map<String, String> queryParas = ParaMap.create("accessToken", token)
+                .put("nonce", nonceStr)
+                .put("timestamp", timestamp)
+                .put("signature", signature)
+                .getData();
+        return RequestUtil.buildUrlWithQueryString(Constants.BASE_URL+"Api", queryParas);
     }
 }

@@ -19,7 +19,7 @@ public class LeaveDetailBean implements Serializable {
      * itemid : 34
      * approvedate : 2018-01-12
      * atype : 1
-     * id : 11
+     * id : 11   doc_ic;
      * uname : 林小峰
      * opinion1 :
      * opinion :

@@ -29,6 +29,7 @@ import com.zhilian.hzrf_oa.ui.activity.DocsendManageActivity;
 import com.zhilian.hzrf_oa.ui.activity.InnerSendManagerActivity;
 import com.zhilian.hzrf_oa.ui.activity.MainActivity;
 import com.zhilian.hzrf_oa.ui.activity.ReceiveManageActivity;
+import com.zhilian.hzrf_oa.ui.leave.view.LeaveManagerActivity;
 import com.zhilian.hzrf_oa.util.LogUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -144,14 +145,6 @@ public class ChatsFragment extends Fragment implements View.OnClickListener {
 		remind6.setOnClickListener(this);
 	}
 
-    /*private void addData() {
-		list.add(new MessageBean(R.drawable.ic_user_1, "有新版本发布", "新版本功能:新增工作日历应用...", "昨天"));
-        list.add(new MessageBean(R.drawable.ic_user_2, "巡检计划", "2016年7月份巡检计划发布，请...", "昨天"));
-        list.add(new MessageBean(R.drawable.ic_user_3, "新的好友", "新好友推荐", "昨天"));
-        list.add(new MessageBean(R.drawable.ic_user_4, "新邮件", "邮件标题:关于参加人防应急墙...", "昨天"));
-        list.add(new MessageBean(R.drawable.ic_user_5, "免费通话", "最近通话:李建华", "昨天"));
-        list.add(new MessageBean(R.drawable.ic_user_6, "文件小助手", "无需数据线，文件小助手帮你实...", "昨天"));
-    }*/
 
 	@Override
 	public void onClick(View v) {
@@ -173,7 +166,8 @@ public class ChatsFragment extends Fragment implements View.OnClickListener {
 				//finish();
 				break;
 			case R.id.remind5:// 待办请休假
-				Toast.makeText(activity, "提示：暂未开通", Toast.LENGTH_SHORT).show();
+				Intent intent5 = new Intent(activity, LeaveManagerActivity.class);
+				startActivity(intent5);
 				break;
 			case R.id.remind6:// 待办会议
 				Toast.makeText(activity, "提示：暂未开通", Toast.LENGTH_SHORT).show();
@@ -213,8 +207,10 @@ public class ChatsFragment extends Fragment implements View.OnClickListener {
 							String docreceivenum = dataJson.getString("docreceivenum");
 							String docsendnum = dataJson.getString("docsendnum");
 							String innersendnum = dataJson.getString("innersendnum");
+							String leavenum = dataJson.getString("leavenum");
 							news_count3.setText(docreceivenum);
 							news_count4.setText(innersendnum);
+							news_count5.setText(leavenum);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

@@ -13,4 +13,5 @@
     <dimen name="tab_col_width">60dp</dimen>
     <dimen name="tab_et_size">12sp</dimen>
     <dimen name="tab_bt_size">14sp</dimen>
+    <dimen name="tab_tv_width">80dp</dimen>
 </resources>
