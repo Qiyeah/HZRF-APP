@@ -9,8 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhilian.hzrf_oa.R;
-import com.zhilian.hzrf_oa.ui.leave.bean.LeaveDetailBean;
 import com.zhilian.hzrf_oa.ui.leave.bean.TodoItemBean;
+import com.zhilian.hzrf_oa.ui.leave.constant.Constants;
+import com.zhilian.hzrf_oa.ui.leave.util.StrKit;
 
 import java.util.List;
 
@@ -22,14 +23,12 @@ import butterknife.ButterKnife;
  */
 
 public class LeaveAdapter extends BaseAdapter {
-
     @BindView(R.id.iv_icon)
     ImageView mIvIcon;
-    @BindView(R.id.tv_person)
-    TextView mTvPerson;
-
-    @BindView(R.id.tv_unit)
-    TextView mTvUnit;
+    @BindView(R.id.tv_describe)
+    TextView mTvDescribe;
+    @BindView(R.id.tv_state)
+    TextView mTvState;
     @BindView(R.id.tv_date)
     TextView mTvDate;
     private List<TodoItemBean> data;
@@ -62,9 +61,39 @@ public class LeaveAdapter extends BaseAdapter {
             view = LayoutInflater.from(mContext).inflate(R.layout.leave_item, viewGroup, false);
             ButterKnife.bind(this, view);
         }
-        mTvPerson.setText(leave.getName()+"\t\t\t"+leave.getType()+"\t\t\t"+leave.getDayt()+" 天");
+        mTvDescribe.setText(generateItemTitle(leave));
         mTvDate.setText(leave.getApprovedate());
-        mTvUnit.setText(leave.getActive());
+        mTvState.setText(leave.getActive());
         return view;
+    }
+
+    private String generateItemTitle(TodoItemBean leave) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(leave.getName())
+                .append("申请了");
+        if (StrKit.notBlank(leave.getType())){
+            sb.append(Constants.BRACKET1).append(leave.getType()).append(Constants.BRACKET2);
+        }
+
+        if (StrKit.notBlank(leave.getDayt())){
+            if (leave.getDayt().contains(".")){
+                String[] dayts = leave.getDayt().split("\\.");
+                if (Integer.valueOf(dayts[0]) > 0) {
+                    sb.append(dayts[0]).append("天");
+                    if (Integer.valueOf(dayts[1]) > 0) {
+                        sb.append("半.");
+                    }
+                } else {
+                    if (Integer.valueOf(dayts[1]) == 5) {
+                        sb.append("半天.");
+                    } else {
+                        sb.append(" O 天.");
+                    }
+                }
+            }else {
+                sb.append(" O 天.");
+            }
+        }
+        return sb.toString();
     }
 }

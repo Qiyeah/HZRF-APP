@@ -34,7 +34,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1.0">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,7 +124,6 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:id="@+id/type"
-                    android:background="@drawable/shape_edit_bg"
                     android:entries="@array/apply_types"
                     android:gravity="center"
                     android:minHeight="0dp"
@@ -186,6 +185,7 @@
                     android:minHeight="30dp"
                     android:gravity="center"
                     android:text=""
+                    android:clickable="false"
                     android:layout_width="0dp" />
                 <View
                     android:layout_width="1dp"
@@ -250,6 +250,7 @@
                     android:minHeight="30dp"
                     android:gravity="center"
                     android:text=""
+                    android:clickable="false"
                     android:layout_width="0dp" />
                 <View
                     android:layout_width="1dp"
@@ -277,6 +278,7 @@
                     android:minHeight="30dp"
                     android:gravity="center"
                     android:text=""
+                    android:clickable="false"
                     android:layout_width="0dp" />
             </LinearLayout>
             <View
@@ -302,38 +304,44 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="#DCDCDC" />
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
                     android:layout_weight="3">
 
                     <Spinner
                         android:id="@+id/sp_dayt_type"
-                        android:layout_width="wrap_content"
+                        android:layout_width="75dp"
+                        android:gravity="center"
                         android:layout_height="match_parent"
-                        android:background="@drawable/shape_edit_bg"
+                        android:clickable="false"
                         android:entries="@array/apply_dayt_type"></Spinner>
 
-                    <EditText
-                        android:id="@+id/dayt"
-                        android:layout_width="42dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="13dp"
-                        android:layout_marginStart="13dp"
-                        android:layout_toEndOf="@+id/sp_dayt_type"
-                        android:layout_toRightOf="@+id/sp_dayt_type"
-                        android:background="@drawable/shape_edit_bg"
-                        android:focusable="false"
-                        android:gravity="center"
-                        android:inputType="textMultiLine"
-                        android:lineSpacingMultiplier="1.2"
-                        android:minHeight="30dp"
-                        android:text="0.5" />
 
-                </RelativeLayout>
+                       <EditText
+                           android:id="@+id/dayt"
+                           android:layout_width="60dp"
+                           android:layout_height="match_parent"
+                           android:layout_alignParentBottom="true"
+                           android:layout_marginLeft="13dp"
+                           android:layout_marginStart="13dp"
+                           android:layout_toEndOf="@+id/sp_dayt_type"
+                           android:layout_toRightOf="@+id/sp_dayt_type"
+                           android:background="@drawable/shape_edit_bg"
+                           android:gravity="center"
+                           android:inputType="textMultiLine"
+                           android:lineSpacingMultiplier="1.2"
+                           android:minHeight="30dp"
+                           android:text="0.5" />
+                    <TextView
+                        android:text="天"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -400,29 +408,32 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
+                    android:minHeight="60dp"
                     android:layout_weight="3">
 
                     <TextView
+                        android:minHeight="60dp"
                         android:id="@+id/reason"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textMultiLine"
-                        android:minHeight="60dp" />
+                        android:inputType="textMultiLine" />
 
                     <Button
                         android:id="@+id/bt_reason"
                         android:layout_width="85dp"
                         android:layout_height="25dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="1dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:background="@drawable/button_style2"
                         android:drawableLeft="@drawable/button2"
-                        android:paddingBottom="2dp"
-                        android:paddingLeft="10dp"
-                        android:text="填写意见"
+                        android:text="填写事由"
                         android:textColor="#6495ED"
                         android:textSize="12sp"
-                        android:visibility="gone" />
+                        android:visibility="invisible" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -452,7 +463,7 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="3">
 
@@ -460,21 +471,27 @@
                         android:id="@+id/opinion1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
                         android:inputType="textMultiLine"
                         android:minHeight="60dp" />
+
 
                     <Button
                         android:id="@+id/bt_opinion1"
                         android:layout_width="85dp"
                         android:layout_height="25dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="1dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:background="@drawable/button_style2"
                         android:drawableLeft="@drawable/button2"
-                        android:paddingBottom="2dp"
-                        android:paddingLeft="10dp"
                         android:text="填写意见"
                         android:textColor="#6495ED"
                         android:textSize="12sp"
-                        android:visibility="gone" />
+                        android:visibility="invisible" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -504,7 +521,7 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="3">
 
@@ -519,14 +536,16 @@
                         android:id="@+id/bt_opinion2"
                         android:layout_width="85dp"
                         android:layout_height="25dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="1dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:background="@drawable/button_style2"
                         android:drawableLeft="@drawable/button2"
-                        android:paddingBottom="2dp"
-                        android:paddingLeft="10dp"
                         android:text="填写意见"
                         android:textColor="#6495ED"
                         android:textSize="12sp"
-                        android:visibility="gone" />
+                        android:visibility="invisible" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -601,6 +620,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_marginTop="3dp"
         android:layout_alignParentBottom="true"
         android:background="@android:color/transparent">
 
@@ -618,51 +638,17 @@
             android:paddingLeft="10dp"
             android:text="记录"
             android:textColor="#696969"
+            android:visibility="gone"
             android:textSize="12sp" />
 
-
-        <Button
-            android:id="@+id/bt_save"
-            android:layout_width="65dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/receiver"
-            android:layout_toStartOf="@+id/receiver"
-            android:background="@drawable/button_style2"
-            android:drawableLeft="@drawable/button3"
-            android:paddingBottom="2dp"
-            android:paddingLeft="10dp"
-            android:text="保存"
-            android:textColor="#6495ED"
-            android:textSize="12sp"
-            android:visibility="visible" />
-
-        <Button
-            android:id="@+id/bt_return"
-            android:layout_width="65dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/submit"
-            android:layout_toStartOf="@+id/submit"
-            android:background="@drawable/button_red"
-            android:drawableLeft="@drawable/huitui"
-            android:paddingBottom="2dp"
-            android:paddingLeft="10dp"
-            android:text="回退"
-            android:textColor="#ff0000"
-            android:textSize="12sp"
-            android:visibility="visible" />
 
         <Button
             android:id="@+id/bt_submit"
             android:layout_width="65dp"
             android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/submit"
-            android:layout_toStartOf="@+id/submit"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:background="@drawable/button_style2"
             android:drawableLeft="@drawable/point_right"
             android:paddingBottom="2dp"
@@ -670,7 +656,39 @@
             android:text="提交"
             android:textColor="#6495ED"
             android:textSize="12sp"
-            android:visibility="visible" />
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/bt_return"
+            android:layout_width="65dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/record"
+            android:background="@drawable/button_red"
+            android:drawableLeft="@drawable/huitui"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:text="回退"
+            android:textColor="#ff0000"
+            android:textSize="12sp"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/bt_save"
+            android:layout_width="65dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/bt_submit"
+            android:layout_toRightOf="@+id/bt_submit"
+            android:background="@drawable/button_style2"
+            android:drawableLeft="@drawable/button3"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:text="保存"
+            android:textColor="#6495ED"
+            android:textSize="12sp"
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <EditText
