@@ -1,18 +1,22 @@
 package com.zhilian.rxapi;
 
 import com.google.gson.GsonBuilder;
-import com.zhilian.api.ContextUtil;
 import com.zhilian.api.InQueryMsg;
 import com.zhilian.api.InSaveMsg;
 import com.zhilian.api.ParaMap;
 import com.zhilian.api.RequestUtil;
 import com.zhilian.api.Sign;
 import com.zhilian.api.StrKit;
-import com.zhilian.hzrf_oa.ui.leave.constant.Constants;
-import com.zhilian.hzrf_oa.ui.leave.constant.LocalConstants;
+import com.zhilian.hzrf_oa.util.LogUtil;
+import com.zhilian.rxapi.constant.Constants;
+import com.zhilian.rxapi.constant.LocalConstants;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.reactivex.annotations.NonNull;
+import okhttp3.ResponseBody;
 
 /**
  * Created by Administrator on 2017-12-23.
@@ -48,4 +52,5 @@ public class RxHttpUtil {
                 .getData();
         return RequestUtil.buildUrlWithQueryString(Constants.BASE_URL+"Api", queryParas);
     }
+
 }

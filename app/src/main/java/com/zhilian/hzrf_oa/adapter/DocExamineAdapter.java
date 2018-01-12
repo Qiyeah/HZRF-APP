@@ -33,7 +33,6 @@ public class DocExamineAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.e("Response", "getCount: "+list.size());
         return list.size();
     }
 

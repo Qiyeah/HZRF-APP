@@ -1,16 +1,15 @@
 package com.zhilian.hzrf_oa.ui.leave.presenter;
 
-import com.zhilian.hzrf_oa.ui.leave.base.IBasePresenter;
-import com.zhilian.hzrf_oa.ui.leave.bean.LeaveDetailBean;
+import com.zhilian.hzrf_oa.base.IBasePresenter;
+import com.zhilian.rxapi.bean.LeaveDetailBean;
 import com.zhilian.hzrf_oa.ui.leave.model.LeaveDetailModel;
 import com.zhilian.hzrf_oa.ui.leave.view.ILeaveDetailView;
-import com.zhilian.rxapi.RxHttpServiceManager;
 
 /**
  * Created by Administrator on 2018-1-4.
  */
 
-public class LeaveDetailPresenter implements IBasePresenter ,LeaveDetailModel.CallBack,LeaveDetailModel.CallBack1{
+public class LeaveDetailPresenter implements IBasePresenter ,LeaveDetailModel.CallBack,LeaveDetailModel.CallBack1,LeaveDetailModel.CallBack2{
     private ILeaveDetailView mView;
     private LeaveDetailModel mModel;
 
@@ -28,6 +27,11 @@ public class LeaveDetailPresenter implements IBasePresenter ,LeaveDetailModel.Ca
         mView.onGetLeaveDetailSuccess(bean);
     }
 
+    @Override
+    public void onDisconnected(String message) {
+        mView.onDisconnected(message);
+    }
+
     public void saveOpinion(String saveModel, LeaveDetailBean temp) {
         mModel.saveOpinion(saveModel,temp,this);
     }
@@ -40,5 +44,14 @@ public class LeaveDetailPresenter implements IBasePresenter ,LeaveDetailModel.Ca
     @Override
     public void onSaveOpinionFailure(String result) {
         mView.onSaveOpinionFailure(result);
+    }
+
+    public void getLeaveDayt(String start,String end) {
+        mModel.getLeaveDayt(start,end,this);
+    }
+
+    @Override
+    public void onGetLeaveDaytSuccess(String dayt) {
+        mView.updateDayt(dayt);
     }
 }

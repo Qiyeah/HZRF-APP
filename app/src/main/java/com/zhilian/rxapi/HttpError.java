@@ -5,5 +5,6 @@ package com.zhilian.rxapi;
  */
 
 public interface HttpError {
-    String SERVER_ERROR = "HTTP 500 Server Error";
+    String HTTP_SERVER_ERROR = "HTTP 500 Server Error";
+    String HTTP_NOT_FOUND = "HTTP 404 Not Found";
 }

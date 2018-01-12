@@ -50,6 +50,7 @@ import com.zhilian.hzrf_oa.json.T_Record;
 import com.zhilian.hzrf_oa.util.DownLoadUtil;
 import com.zhilian.hzrf_oa.util.LogUtil;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -194,15 +195,15 @@ public class ReceiveCabDetail extends Activity {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        LogUtil.i("i", "发送前的明文：" + postData);
+
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("TAG", "response -> " + response.toString());
-                    LogUtil.i("i", "解密后：" + response.toString());
+
+                    LogUtil.e("解密后：" + response.toString());
                     //Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
 
                     try {
@@ -263,7 +264,7 @@ public class ReceiveCabDetail extends Activity {
             }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+
                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
             }
         });
@@ -324,15 +325,15 @@ public class ReceiveCabDetail extends Activity {
                         } catch (JsonProcessingException e) {
                             e.printStackTrace();
                         }
-                        LogUtil.i("i", "发送前的明文：" + postData);
+
                         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
                         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Log.d("TAG", "response -> " + response.toString());
-                                    LogUtil.i("i", "解密后：" + response.toString());
+
+                                    LogUtil.e("解密后：" + response.toString());
 
                                     try {
                                         List<T_Record> list = JsonUtil.getRecordList(response.toString());
@@ -357,7 +358,7 @@ public class ReceiveCabDetail extends Activity {
                             }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e("TAG", error.getMessage(), error);
+
                                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                             }
                         });

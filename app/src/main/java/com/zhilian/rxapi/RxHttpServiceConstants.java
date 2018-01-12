@@ -24,25 +24,34 @@ public interface RxHttpServiceConstants {
     String BASE_URL = "http://192.168.9.31:8083/";
     //String BASE_URL = "http://www.zhiliantech.com:8083/ZhiLian-OA/";// 云服务器
     String URL = null;
+    String DOWNLOADURL = BASE_URL + "/File/File/";
     String TYPE_QUERY = "query";
     String TYPE_SAVE = "save";
+    int REQUEST_NUM = 5;//请求失败时，重新请求的次数
+    int REQUEST_INTERVAL = 1000*3;//请求失败时，重新请求的时间间隔
 
     /**
      * ************************************* 方法名 ***************************************
      */
     String QUERY_LEAVE_TODO = "getLeaveTodoList";//查询待办理请休假
     String QUERY_LEAVE_DONE = "getLeaveDoneList";//查询已办理请休假
+    String QUERY_MY_LEAVE = "getMyLeaveList";// 获取我的请休假列表
     String QUERY_LEAVE_NEW = "";//查询新申请请休假
     String QUERY_LEAVE_DETAIL= "LeaveDetail";//查询新申请请休假
-    String QUERY_LEAVE_DAYT = "";//查询可请假天数
+    String QUERY_LEAVE_DAYT = "countWorkingDay";//查询可请假天数
     String QUERY_FSONG = "fasong";//查询可请假天数
-    String QUERY_MY_LEAVE_LIST = "getMyLeaveList";// 获取我的请休假列表
     String SAVE_OPINION = "editopinion";//意见保存
-    String SAVE_SELECT_MEN = "receivesave";//选人
+    String SAVE_LEAVE_RECEIVE= "leavesave";//
 
     /**
      * ************************************* 错误反馈 ***************************************
      */
     String RESPONSE_ERROR = "用户登录超时！";
+    String HTTP_SERVER_ERROR = "HTTP 500 Server Error";
+    String HTTP_NOT_FOUND = "HTTP 404 Not Found";
+    /**
+     * ************************************* 视图错误提示 ***************************************
+     */
+    String LEAVE_DETAIL_ERROR = "获取请休假详情失败";
 
 }

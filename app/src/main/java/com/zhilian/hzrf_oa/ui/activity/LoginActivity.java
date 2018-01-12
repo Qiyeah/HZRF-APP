@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,8 +21,7 @@ import android.widget.Toast;
 
 import com.zhilian.hzrf_oa.R;
 import com.zhilian.hzrf_oa.common.BusinessContant;
-import com.zhilian.hzrf_oa.ui.leave.constant.LocalConstants;
-import com.zhilian.hzrf_oa.ui.leave.util.LogUtil;
+import com.zhilian.rxapi.constant.LocalConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -255,13 +253,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         boolean is_exist = false;
         String target = "";
         target = bc.URL + "/Mobile/login/" + user_id + "-" + pwd;
+      //  LogUtil.e("target = "+target);
         try {       //要访问的URL地址
             URL url;
             url = new URL(target);
             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();  //创建一个HTTP连接
             urlConn.connect();
 
-            LogUtil.e("response code:" + urlConn.getResponseCode());
+
             if (urlConn.getResponseCode() == 200) {
                 InputStream in = urlConn.getInputStream(); // 获得读取的内容
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -271,7 +270,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     while ((line = reader.readLine()) != null) {
                         sb.append(line + "/n");
                     }
-            LogUtil.e("response:" + sb.toString());
+           // LogUtil.e("response:" + sb.toString());
                     JSONObject dataJson = new JSONObject(sb.toString());
                     String status = dataJson.getString("status");
                     String msg = dataJson.getString("msg");

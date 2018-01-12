@@ -50,7 +50,7 @@ import java.util.HashMap;
 /**
  * 联系人详情
  */
-public class AddressListDetailActivity extends BaseActivity implements View.OnClickListener{
+public class AddressListDetailActivity extends BaseActivity implements View.OnClickListener {
 	private CollapsingToolbarLayout mCollapsingToolbarLayout;
 	private ImageView mImageViewBg;
 	private FloatingActionButton mFloatingActionButton;
@@ -129,8 +129,8 @@ public class AddressListDetailActivity extends BaseActivity implements View.OnCl
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	private void initData(String name,String begin_date,String married,String gradename,
-						  String gradelevel,String phone,String mbphone) {
+	private void initData(String name, String begin_date, String married, String gradename,
+						  String gradelevel, String phone, String mbphone) {
 		if (contactsInfo != null) {
 			mCollapsingToolbarLayout.setTitle(contactsInfo.getName());
 			tv_name.setText(contactsInfo.getName());
@@ -143,17 +143,17 @@ public class AddressListDetailActivity extends BaseActivity implements View.OnCl
 
 		if (contactsInfo != null && !TextUtils.isEmpty(contactsInfo.getImgSrc())) {
 			Picasso.with(getApplicationContext())
-					.load(contactsInfo.getImgSrc())
-					.transform(new BlurTransformation())
-					.placeholder(R.drawable.user_picture)// default_pic
-					.error(R.drawable.user_picture)// default_pic
-					.into(mImageViewBg);
+				.load(contactsInfo.getImgSrc())
+				.transform(new BlurTransformation())
+				.placeholder(R.drawable.user_picture)// default_pic
+				.error(R.drawable.user_picture)// default_pic
+				.into(mImageViewBg);
 			Picasso.with(getApplicationContext())
-					.load(contactsInfo.getImgSrc())
-					.transform(new CircleTransform())
-					.placeholder(R.drawable.user_picture)// transparent_corner_bg
-					.error(R.drawable.user_picture)// transparent_corner_bg
-					.into(mFloatingActionButton);
+				.load(contactsInfo.getImgSrc())
+				.transform(new CircleTransform())
+				.placeholder(R.drawable.user_picture)// transparent_corner_bg
+				.error(R.drawable.user_picture)// transparent_corner_bg
+				.into(mFloatingActionButton);
 		} else {
 			contactsBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.contacts_bg);
 			isLoadPhoto = true;
@@ -187,47 +187,47 @@ public class AddressListDetailActivity extends BaseActivity implements View.OnCl
 	public void onClick(View v) {
 		String mbphone = tv_mbphone.getText().toString();
 		String phone = tv_phone.getText().toString();
-		switch (v.getId()){
+		switch (v.getId()) {
 			case R.id.friends_mbphone:// 手机（拨号）
-				if(StrKit.notBlank(mbphone)){
-					Intent intent1 =new Intent();
+				if (StrKit.notBlank(mbphone)) {
+					Intent intent1 = new Intent();
 					//intent1.setAction("android.intent.action.CALL");
 					intent1.setAction(Intent.ACTION_CALL);
-					intent1.setData(Uri.parse("tel:"+mbphone));
+					intent1.setData(Uri.parse("tel:" + mbphone));
 					// System.out.println("---手机--->"+mbphone);
 					startActivity(intent1);
-				}else{
-					Toast.makeText(this,"号码是空的！",Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(this, "号码是空的！", Toast.LENGTH_SHORT).show();
 				}
 				break;
 			case R.id.friends_message1:// 手机（短信）
-				if(StrKit.notBlank(mbphone)){
+				if (StrKit.notBlank(mbphone)) {
 					Intent intent2 = new Intent(Intent.ACTION_SENDTO);
-					intent2.setData(Uri.parse("smsto:"+mbphone));
+					intent2.setData(Uri.parse("smsto:" + mbphone));
 					startActivity(intent2);
-				}else{
-					Toast.makeText(this,"号码是空的！",Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(this, "号码是空的！", Toast.LENGTH_SHORT).show();
 				}
 				break;
 			case R.id.friends_phone:// 内部电话（拨号）
-				if(StrKit.notBlank(phone)){
-					Intent intent3 =new Intent();
+				if (StrKit.notBlank(phone)) {
+					Intent intent3 = new Intent();
 					//intent3.setAction("android.intent.action.CALL");
 					intent3.setAction(Intent.ACTION_CALL);
-					intent3.setData(Uri.parse("tel:"+phone));
+					intent3.setData(Uri.parse("tel:" + phone));
 					// System.out.println("---内部电话--->"+mbphone);
 					startActivity(intent3);
-				}else{
-					Toast.makeText(this,"号码是空的！",Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(this, "号码是空的！", Toast.LENGTH_SHORT).show();
 				}
 				break;
 			case R.id.friends_message2:// 内部电话（短信）
-				if(StrKit.notBlank(phone)){
+				if (StrKit.notBlank(phone)) {
 					Intent intent4 = new Intent(Intent.ACTION_SENDTO);
-					intent4.setData(Uri.parse("smsto:"+phone));
+					intent4.setData(Uri.parse("smsto:" + phone));
 					startActivity(intent4);
-				}else{
-					Toast.makeText(this,"号码是空的！",Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(this, "号码是空的！", Toast.LENGTH_SHORT).show();
 				}
 				break;
 		}
@@ -276,7 +276,7 @@ public class AddressListDetailActivity extends BaseActivity implements View.OnCl
 			Canvas canvas = new Canvas(bitmap);
 			Paint paint = new Paint();
 			BitmapShader shader = new BitmapShader(squaredBitmap,
-					BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
+				BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
 			paint.setShader(shader);
 			paint.setAntiAlias(true);
 
@@ -296,12 +296,13 @@ public class AddressListDetailActivity extends BaseActivity implements View.OnCl
 
 	/**
 	 * 拿到联系人详情数据
+	 *
 	 * @param id
 	 */
-	private void getPersonalDetail(String id){
+	private void getPersonalDetail(String id) {
 		BusinessContant bc = new BusinessContant();
 		String key = bc.getCONFIRM_ID();
-		String url=bc.URL;
+		String url = bc.URL;
 		InQueryMsg inQueryMsg = new InQueryMsg(1348831860, "query", key);
 		inQueryMsg.setQueryName("PersonalDetail");
 		HashMap<String, String> map = new HashMap<>();
@@ -314,40 +315,37 @@ public class AddressListDetailActivity extends BaseActivity implements View.OnCl
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("发送前的明文：" + postData);
+
 
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
-				new Response.Listener<String>() {
-					@Override
-					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
-						System.out.println("解密后：" + response.toString());
+			new Response.Listener<String>() {
+				@Override
+				public void onResponse(String response) {
 
-						ObjectMapper objectMapper = new ObjectMapper();
-						objectMapper.configure(
-								DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-						try {
-							AddressList model = objectMapper.readValue(response.toString(), AddressList.class);
+					ObjectMapper objectMapper = new ObjectMapper();
+					objectMapper.configure(
+						DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+					try {
+						AddressList model = objectMapper.readValue(response.toString(), AddressList.class);
 
-							String name = model.getName();// 姓名
-							String begin_date = model.getBegindate();// 开始工作日期
-							String married = model.getMarried();// 婚姻状态
-							String gradename = model.getGradename();// 职务名称
-							String gradelevel = model.getGradelevel();// 职务级别
-							String phone = model.getPhone();// 内部电话
-							String mbphone = model.getMbphone();// 手机
+						String name = model.getName();// 姓名
+						String begin_date = model.getBegindate();// 开始工作日期
+						String married = model.getMarried();// 婚姻状态
+						String gradename = model.getGradename();// 职务名称
+						String gradelevel = model.getGradelevel();// 职务级别
+						String phone = model.getPhone();// 内部电话
+						String mbphone = model.getMbphone();// 手机
 
-							initData(name,begin_date,married,gradename,gradelevel,phone,mbphone);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						initData(name, begin_date, married, gradename, gradelevel, phone, mbphone);
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-				}, new Response.ErrorListener() {
+				}
+			}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
 				Toast.makeText(AddressListDetailActivity.this, "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});

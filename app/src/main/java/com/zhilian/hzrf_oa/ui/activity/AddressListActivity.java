@@ -132,15 +132,15 @@ public class AddressListActivity extends Activity {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
-						System.out.println("解密后：" + response.toString());
+
+
 
 						List<SelectPerson> list = JsonUtil.getPersonnalInfo(response.toString());
 
@@ -171,7 +171,7 @@ public class AddressListActivity extends Activity {
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(AddressListActivity.this, "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});

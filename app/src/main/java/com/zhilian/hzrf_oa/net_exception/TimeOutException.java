@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 
 import com.zhilian.api.StrKit;
 import com.zhilian.hzrf_oa.ui.activity.LoginActivity;
-import com.zhilian.hzrf_oa.ui.leave.util.LogUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;

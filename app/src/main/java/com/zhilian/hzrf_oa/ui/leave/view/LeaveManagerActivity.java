@@ -14,21 +14,21 @@ import android.widget.TextView;
 import com.zhilian.hzrf_oa.R;
 import com.zhilian.hzrf_oa.net_exception.ITimeOutException;
 import com.zhilian.hzrf_oa.net_exception.TimeOutException;
-import com.zhilian.hzrf_oa.ui.leave.base.BaseActivity;
-import com.zhilian.hzrf_oa.ui.leave.base.BaseFragment;
-import com.zhilian.hzrf_oa.ui.leave.bean.ApplyBean;
-import com.zhilian.hzrf_oa.ui.leave.bean.LeaveDetailBean;
-import com.zhilian.hzrf_oa.ui.leave.bean.LeaveRoot;
-import com.zhilian.hzrf_oa.ui.leave.bean.TodoItemBean;
-import com.zhilian.hzrf_oa.ui.leave.constant.Constants;
-import com.zhilian.hzrf_oa.ui.leave.constant.LocalConstants;
+import com.zhilian.hzrf_oa.base.BaseActivity;
+import com.zhilian.hzrf_oa.base.BaseFragment;
+import com.zhilian.rxapi.bean.DoneBean;
+import com.zhilian.rxapi.bean.MyLeaveBean;
+import com.zhilian.rxapi.bean.TodoItemBean;
+import com.zhilian.rxapi.constant.Constants;
 import com.zhilian.hzrf_oa.ui.leave.presenter.LeavePresenter;
-import com.zhilian.hzrf_oa.ui.leave.util.CacheUtil;
+import com.zhilian.hzrf_oa.util.LogUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.OnClick;
 
 /**
@@ -38,7 +38,7 @@ import butterknife.OnClick;
 /**
  * 工作台---请休假管理
  */
-public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
+public class LeaveManagerActivity extends BaseActivity  implements ILeaveView {
 
     @BindView(R.id.vp_container)
     ViewPager mVpContainer;
@@ -46,6 +46,10 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
     TextView mTvDraft;
     @BindView(R.id.tv_approved)
     TextView mTvApproved;
+    @BindView(R.id.tv_my_applies)
+    TextView mTvMyApplies;
+    @BindViews({R.id.tv_draft,R.id.tv_approved,R.id.tv_my_applies})
+    List<TextView> mTvTitles;
     @BindView(R.id.bt_apply)
     Button mBtApply;
     @BindView(R.id.linearLayout2)
@@ -62,31 +66,24 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
 
 
     private LeavePresenter mPresenter = null;
-
-    private List<TodoItemBean> mTodoList = new ArrayList<>();// 待批列表数据
-
-    private List<LeaveDetailBean> mApproveList = new ArrayList<>();//已批列表数据
-
-    private LeaveDetailBean mCacheApply;//用户缓存的请休假申请
-    private TodoItemBean mCacheTodo;//
     private FragmentPagerAdapter mAdapter;
     private List<BaseFragment> mTabs = new ArrayList<BaseFragment>();
     private ViewPager.OnPageChangeListener mPageChangeListener;
     private int index = 0;
     private String fileName = "apply.xml";
-
+    HashMap<String,String> map = new HashMap<>();
     /**
      * 初始化页面数据
      */
     @Override
     public void initData() {
+
+        map.put("pageNumber","1");
+        map.put("condition","");
         mPresenter = new LeavePresenter(this);
-        mPresenter.initViewData();
-        mCacheApply = new CacheUtil(getApplicationContext(),fileName).
-            getObject("leave", LeaveDetailBean.class);
-        if (null != mCacheApply) {
-            mTodoList.add(cache2TodoItem(mCacheApply));
-        }
+        mPresenter.initApplies(map);
+        mPresenter.initApproves(map);
+        mPresenter.initMyApplies(map);
     }
 
     /**
@@ -105,8 +102,9 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
     @Override
     protected void initView() {
 
-        mTabs.add(new AppliesFragment(mTodoList));
+        mTabs.add(new AppliesFragment());
         mTabs.add(new ApprovedFragment());
+        mTabs.add(new MyAppliesFragment());
 
         if (mTabs != null && mTabs.size() > 0) {
             mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -157,13 +155,7 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
      */
     @Override
     public void onInitAppliesSuccess(List<TodoItemBean> list) {
-
-        mTodoList = list;
-        if (null != mCacheApply) {
-            mTodoList.add(cache2TodoItem(mCacheApply));
-        }
-        mTabs.get(0).notifyAppliesDataChange(mTodoList);
-
+        mTabs.get(0).notifyAppliesDataChange(list);
     }
 
     /**
@@ -172,8 +164,8 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
      * @param root
      */
     @Override
-    public void onInitApprovesSuccess(LeaveRoot root) {
-        mApproveList = root.getRoot();
+    public void onInitApprovesSuccess(List<DoneBean.DoneItemBean> root) {
+        mTabs.get(1).notifyApprovesDataChange(root);
     }
 
     @Override
@@ -181,14 +173,16 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
         new TimeOutException().reLogin(getApplicationContext(), new ITimeOutException.CallBack() {
             @Override
             public void onReloginSuccess() {
-                mPresenter.initViewData();
+                mPresenter.initApplies(map);
+                mPresenter.initApproves(map);
+                mPresenter.initMyApplies(map);
             }
         });
     }
 
     @Override
-    public void onCreateNewApply(ApplyBean applyBean) {
-
+    public void onInitMyAppliesSuccess(List<MyLeaveBean.ItemBean> root) {
+        mTabs.get(2).notifyMyAppliesDataChange(root);
     }
 
     /**
@@ -202,25 +196,24 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
     @OnClick(R.id.bt_apply)
     public void onMBtApplyClicked() {
         //TODO 新申请请休假
-        try {
-            mPresenter.newAsk4Leave();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         Intent intent = new Intent(this, LeaveDetailActivity.class);
         intent.putExtra("task", Constants.TASK_NEW);
-        intent.putExtra("doc_id","0");
+        intent.putExtra("docid","0");
         intent.putExtra("isdone","0");
-        startActivity(intent);
+        startActivityForResult(intent,Constants.TASK_NEW);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.initApplies(map);
     }
 
     /**
      * 监听搜索按键
      */
-    @OnClick(R.id.iv_search)
+    /*@OnClick(R.id.iv_search)
     public void onMIvSearchClicked() {
-    }
+    }*/
 
     /**
      * 监听待批列表按键
@@ -240,29 +233,33 @@ public class LeaveManagerActivity extends BaseActivity implements ILeaveView {
         changeTabs();
     }
 
-    // 清除掉所有的选中状态
-    private void clearSelection() {
-        mTvDraft.setBackgroundColor(0xffffffff);
-        mTvApproved.setBackgroundColor(0xffffffff);
+    /**
+     * 监听已批列表按键
+     */
+    @OnClick(R.id.tv_my_applies)
+    public void onMTvMineClicked() {
+        index = 2;
+        changeTabs();
     }
 
-    private void changeTabs() {
-        clearSelection();
 
+
+
+    /**
+     * 切换选中状态
+     */
+    private void changeTabs() {
+//        mTvDraft.setBackgroundColor(0xffffffff);
+//        mTvApproved.setBackgroundColor(0xffffffff);
+//        mTvMyApplies.setBackgroundColor(0xffffffff);
+        for (TextView tvTitle : mTvTitles) {
+            tvTitle.setBackgroundColor(0xffffffff);
+        }
+        mTvTitles.get(index).setBackgroundColor(Color.parseColor("#99CCFF"));
         mVpContainer.setCurrentItem(index, false);
-        if (0 == index)
+       /* if (0 == index)
             mTvDraft.setBackgroundColor(Color.parseColor("#99CCFF"));
         else
-            mTvApproved.setBackgroundColor(Color.parseColor("#99CCFF"));
-    }
-
-    private TodoItemBean cache2TodoItem(LeaveDetailBean leave) {
-        TodoItemBean bean = new TodoItemBean();
-        bean.setType(leave.getType());
-        bean.setActive("申请");
-        bean.setDayt(leave.getDayt());
-        bean.setName(leave.getUname());
-        bean.setUnit(leave.getDname());
-        return bean;
+            mTvApproved.setBackgroundColor(Color.parseColor("#99CCFF"));*/
     }
 }

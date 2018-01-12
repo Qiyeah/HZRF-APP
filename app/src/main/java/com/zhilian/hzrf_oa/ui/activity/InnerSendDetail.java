@@ -3,10 +3,8 @@ package com.zhilian.hzrf_oa.ui.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,44 +26,27 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhilian.api.InQueryMsg;
-import com.zhilian.api.InSaveMsg;
 import com.zhilian.api.JsonStringRequest;
-import com.zhilian.api.JsonUtil;
-import com.zhilian.api.ParaMap;
 import com.zhilian.api.RequestUtil;
-import com.zhilian.api.Sign;
-import com.zhilian.api.StrKit;
 import com.zhilian.hzrf_oa.R;
-import com.zhilian.hzrf_oa.adapter.ReceiverAdapter;
 import com.zhilian.hzrf_oa.adapter.RecordAdapter;
 import com.zhilian.hzrf_oa.adapter.SelectmanAdapter;
 import com.zhilian.hzrf_oa.adapter.TextAdapter;
 import com.zhilian.hzrf_oa.common.BusinessContant;
 import com.zhilian.hzrf_oa.common.Common;
 import com.zhilian.hzrf_oa.json.InnerSendDetailJson;
-import com.zhilian.hzrf_oa.json.ReceiveDetailJson;
 import com.zhilian.hzrf_oa.json.T_FJList;
-import com.zhilian.hzrf_oa.json.T_InnerSend;
 import com.zhilian.hzrf_oa.json.T_Record;
 import com.zhilian.hzrf_oa.json.T_Selectman;
 import com.zhilian.hzrf_oa.net_exception.ITimeOutException;
 import com.zhilian.hzrf_oa.net_exception.TimeOutException;
 import com.zhilian.hzrf_oa.ui.widget.NoScrollListView;
 import com.zhilian.hzrf_oa.util.DownLoadUtil;
-import com.zhilian.hzrf_oa.util.LogUtil;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -179,22 +160,16 @@ public class InnerSendDetail extends Activity {
                 //请求接口
                 inQueryMsg.setQueryName("InnerSendDetail");
                 HashMap<String, String> map = new HashMap<>();
-                Log.e(TAG, "docid: " + docid);
                 map.put("docid", docid);
                 map.put("isdone", isdone);
                 inQueryMsg.setQueryPara(map);
                 String postData = null;
                 postData = common.getPostData(inQueryMsg);
-                Log.e("Response", "postData: "+postData);
-                //System.out.println("发送前的明文：" + postData);
                 RequestQueue requestQueue = RequestUtil.getRequestQueue();
                 JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.e(TAG, "解密后：" + response.toString());
-                            //System.out.println("解密后：" + response.toString());
-                            //Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
                             if (response.toString().equals(bc.ERROR)) {
                                 Toast.makeText(InnerSendDetail.this, response.toString(), Toast.LENGTH_SHORT).show();
                                 new TimeOutException().reLogin(InnerSendDetail.this, new ITimeOutException.CallBack(){
@@ -231,7 +206,7 @@ public class InnerSendDetail extends Activity {
                     }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
+
                         Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                     }
                 });

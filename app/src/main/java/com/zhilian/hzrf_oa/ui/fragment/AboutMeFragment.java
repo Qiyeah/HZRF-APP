@@ -136,7 +136,6 @@ public class AboutMeFragment extends Fragment implements View.OnClickListener{
                       //  editor.clear();
                         editor.commit();
 
-                        Log.e("Response", "onClick: "+sp.getString("password",""));
 
                         activity.finish();
                     }

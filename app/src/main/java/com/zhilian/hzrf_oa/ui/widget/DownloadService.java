@@ -10,9 +10,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.zhilian.hzrf_oa.R;
+import com.zhilian.hzrf_oa.util.LogUtil;
 import com.zhilian.hzrf_oa.update.UpdateDownloadListener;
 import com.zhilian.hzrf_oa.update.UpdateManager;
 
@@ -112,7 +112,7 @@ public class DownloadService extends Service {
         url = intent.getStringExtra("url");
         filename=intent.getStringExtra("filename");
         filePath=Environment.getExternalStorageDirectory()+"/hzrf-oa/"+filename;
-        Log.i(TAG, "下载地址: " + url);
+        LogUtil.e( "下载地址: " + url);
         notifyUser(getString(R.string.update_download_start), getString(R.string.update_download_start), 0);
         startDownload();
         return super.onStartCommand(intent, flags, startId);

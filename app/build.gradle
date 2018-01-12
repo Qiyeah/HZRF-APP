@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     signingConfigs {
@@ -71,4 +72,8 @@ dependencies {
     compile files('libs/jackson-databind-2.4.3.jar')
     compile files('libs/library-2.4.0.jar')
     compile files('libs/picasso-2.5.2.jar')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

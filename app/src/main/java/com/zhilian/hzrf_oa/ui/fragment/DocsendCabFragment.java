@@ -274,14 +274,14 @@ public class DocsendCabFragment extends CustomListFragment implements CustomList
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						System.out.println("解密后：" + response.toString());
+
 						if (response.equals(bc.ERROR)) {
 							new TimeOutException().reLogin(getActivity(), new ITimeOutException.CallBack(){
 								@Override
@@ -321,7 +321,7 @@ public class DocsendCabFragment extends CustomListFragment implements CustomList
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(activity, "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -359,7 +359,7 @@ public class DocsendCabFragment extends CustomListFragment implements CustomList
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
@@ -414,7 +414,7 @@ public class DocsendCabFragment extends CustomListFragment implements CustomList
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(getActivity(),"出错了!",Toast.LENGTH_LONG).show();
 			}
 		});

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +24,10 @@ import com.zhilian.hzrf_oa.R;
 import com.zhilian.hzrf_oa.adapter.MessageAdapter;
 import com.zhilian.hzrf_oa.common.BusinessContant;
 import com.zhilian.hzrf_oa.entity.MessageBean;
-import com.zhilian.hzrf_oa.ui.activity.DocsendManageActivity;
 import com.zhilian.hzrf_oa.ui.activity.InnerSendManagerActivity;
 import com.zhilian.hzrf_oa.ui.activity.MainActivity;
 import com.zhilian.hzrf_oa.ui.activity.ReceiveManageActivity;
 import com.zhilian.hzrf_oa.ui.leave.view.LeaveManagerActivity;
-import com.zhilian.hzrf_oa.util.LogUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhilian.api.InQueryMsg;
@@ -191,15 +188,13 @@ public class ChatsFragment extends Fragment implements View.OnClickListener {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		LogUtil.i("i","发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.e("TAG", "response -> " + response.toString());
-						//LogUtil.i("i","解密后：" + response.toString());
 						JSONObject dataJson = null;
 						try {
 							dataJson = new JSONObject(response.toString());
@@ -218,7 +213,7 @@ public class ChatsFragment extends Fragment implements View.OnClickListener {
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(activity, "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -245,7 +240,6 @@ public class ChatsFragment extends Fragment implements View.OnClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
-		LogUtil.i("i","----->>>onResume");
 		getRemind();
 	}
 

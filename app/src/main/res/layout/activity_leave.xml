@@ -83,9 +83,16 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="已办请休假"
+            android:text="办理中请休假"
             android:textSize="16sp"/>
-
+        <TextView
+            android:id="@+id/tv_my_applies"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="我的请休假"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 

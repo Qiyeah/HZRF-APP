@@ -166,21 +166,14 @@ public class NoticeAnnouncementActivity extends Activity {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("发送前的明文：" + postData);
-		Log.e("NoticeRep", "发送前的明文：" + postData);
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						//Log.d("TAG", "response -> " + response.toString());
-						Log.e("NoticeRep", "response -> " + response.toString());
-						//System.out.println("解密后：" + response.toString());
 
 						list = JsonUtil.getAnnounceList(response.toString());
-						System.out.println("list:" + list);
-
 						getmData(mData);//将获得的数据打包成一个数据集
 						// 拆分数据
 						for (int i = 0; i < list.size(); i++) {
@@ -205,7 +198,7 @@ public class NoticeAnnouncementActivity extends Activity {
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});

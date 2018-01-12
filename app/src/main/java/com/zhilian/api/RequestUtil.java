@@ -75,7 +75,6 @@ public class RequestUtil {
             }
             sb.append(key).append("=").append(value);
         }
-        Log.e("TAG", sb.toString());
         return sb.toString();
     }
 

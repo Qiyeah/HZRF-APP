@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.zhilian.hzrf_oa.json.MailDetail;
-import com.zhilian.hzrf_oa.ui.leave.constant.Constants;
+import com.zhilian.rxapi.constant.Constants;
 
 import java.util.ArrayList;
 import java.util.Map;

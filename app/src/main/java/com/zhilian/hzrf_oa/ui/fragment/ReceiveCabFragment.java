@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +39,6 @@ import com.zhilian.hzrf_oa.ui.activity.FileCabinetActivity;
 import com.zhilian.hzrf_oa.ui.activity.ReceiveCabDetail;
 import com.zhilian.hzrf_oa.ui.widget.CustomListFragment;
 import com.zhilian.hzrf_oa.ui.widget.CustomListView;
-import com.zhilian.hzrf_oa.util.LogUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhilian.api.InQueryMsg;
@@ -299,14 +297,13 @@ public class ReceiveCabFragment extends CustomListFragment implements CustomList
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		LogUtil.i("i","发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						LogUtil.i("i","解密后：" + response.toString());
 						if (response.equals(bc.ERROR)){
 							new TimeOutException().reLogin(getActivity(), new ITimeOutException.CallBack(){
 								@Override
@@ -344,7 +341,7 @@ public class ReceiveCabFragment extends CustomListFragment implements CustomList
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(activity, "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -382,7 +379,7 @@ public class ReceiveCabFragment extends CustomListFragment implements CustomList
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		LogUtil.i("i","发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
@@ -437,7 +434,7 @@ public class ReceiveCabFragment extends CustomListFragment implements CustomList
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(getActivity(),"出错了!",Toast.LENGTH_LONG).show();
 			}
 		});

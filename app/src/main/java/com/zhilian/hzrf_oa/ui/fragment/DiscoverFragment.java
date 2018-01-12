@@ -26,6 +26,7 @@ import com.zhilian.hzrf_oa.ui.activity.NoticeAnnouncementActivity;
 import com.zhilian.hzrf_oa.ui.activity.PersonalAgendaActivity;
 import com.zhilian.hzrf_oa.ui.activity.ExamineManagerActivity;
 import com.zhilian.hzrf_oa.ui.activity.ReceiveManageActivity;
+import com.zhilian.hzrf_oa.ui.egress.EgressManagerActivity;
 import com.zhilian.hzrf_oa.ui.leave.view.LeaveManagerActivity;
 import com.zhilian.hzrf_oa.ui.widget.MyGridView;
 
@@ -99,13 +100,16 @@ public class DiscoverFragment extends Fragment {
         gridView1.setOnItemClickListener(listener1);
         // 行政管理
         mGvAdministration = (MyGridView) v.findViewById(R.id.gv_administration);
-        mGvAdministration.setAdapter(new WorkAdapter(activity,new int[]{R.drawable.icon_leave},new String[]{"请休假管理"}));
+        mGvAdministration.setAdapter(new WorkAdapter(activity,new int[]{R.drawable.icon_leave,R.drawable.icon_egress},new String[]{"请休假管理","外出公干"}));
         mGvAdministration.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i){
                     case 0:
                         startActivity(new Intent(activity, LeaveManagerActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(activity, EgressManagerActivity.class));
                         break;
                 }
             }

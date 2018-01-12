@@ -180,7 +180,6 @@ public class PersonalAgendaActivity extends FragmentActivity implements GestureD
 					case SCROLL_STATE_IDLE:
 						scrollFlag = false;
 						mScrollLayout.setIsFirstMoveDown();
-						Log.i("zxListView", "惯性滑动");
 						break;
 					default:
 						break;
@@ -524,7 +523,6 @@ public class PersonalAgendaActivity extends FragmentActivity implements GestureD
 					}
 					selectLoction = 0;
 					calV.notifyDataSetChanged();
-					Log.i("zx","上个月");
 					jumpMonth--;     // 上一个月
 					jumpDay = startPosition - 7 - position;
 					upDateView(CalendarAdapter.JUMPTOBEFORE);
@@ -578,13 +576,13 @@ public class PersonalAgendaActivity extends FragmentActivity implements GestureD
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
+
 						System.out.println("解密后："+response.toString());
 						List<SchduleList> list = JsonUtil.getSchduleList(response.toString());
 						System.out.println("list:"+list);
@@ -616,7 +614,7 @@ public class PersonalAgendaActivity extends FragmentActivity implements GestureD
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(PersonalAgendaActivity.this,"出错了!",Toast.LENGTH_LONG).show();
 			}
 		});
@@ -643,7 +641,7 @@ public class PersonalAgendaActivity extends FragmentActivity implements GestureD
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("发送前的明文：" + postData);
+
 
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
@@ -651,7 +649,7 @@ public class PersonalAgendaActivity extends FragmentActivity implements GestureD
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
+
 						System.out.println("解密后："+response.toString());
 						String[] result = response.toString().split(",");
 						result1 =  response.toString();
@@ -673,7 +671,7 @@ public class PersonalAgendaActivity extends FragmentActivity implements GestureD
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(PersonalAgendaActivity.this,"出错了!",Toast.LENGTH_LONG).show();
 			}
 		});

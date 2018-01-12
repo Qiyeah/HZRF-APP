@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -217,18 +216,16 @@ public class LeaveDetail extends Activity {
                 inQueryMsg.setQueryPara(map);
                 String postData = null;
                 postData = common.getPostData(inQueryMsg);
-                //System.out.println("发送前的明文：" + postData);
+                //
                 RequestQueue requestQueue = RequestUtil.getRequestQueue();
-                com.zhilian.hzrf_oa.ui.leave.util.LogUtil.e("url = "+url);
-                com.zhilian.hzrf_oa.ui.leave.util.LogUtil.e("postData = "+postData);
+                LogUtil.e("url = "+url);
+                LogUtil.e("postData = "+postData);
 
                 JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.d("TAG", "response -> " + response.toString());
-                            //System.out.println("解密后：" + response.toString());
-                            //Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
+
                             if (response.toString().equals(bc.ERROR)) {
                                 new TimeOutException().reLogin(getApplicationContext(), new ITimeOutException.CallBack() {
                                     @Override
@@ -319,7 +316,7 @@ public class LeaveDetail extends Activity {
                                         }
                                     }
                                     if (StrKit.notBlank(opinion1)) {
-                                        LogUtil.e("rep", opinion1.replace("&nbsp;", " ").replace("<br>", "\n"));
+                                        LogUtil.e(opinion1.replace("&nbsp;", " ").replace("<br>", "\n"));
                                         tv_opinion1.setText(opinion1.replace("&nbsp;", " ").replace("<br>", "\n"));
                                     }
                                     if (StrKit.notBlank(opinion2)) {
@@ -379,8 +376,8 @@ public class LeaveDetail extends Activity {
                     }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
-                        Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
+                      //
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
                 requestQueue.add(jsonRequest);
@@ -421,7 +418,7 @@ public class LeaveDetail extends Activity {
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
-                System.out.println("发送前的明文：" + postData);
+
                 RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
                 JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
@@ -438,8 +435,8 @@ public class LeaveDetail extends Activity {
                     }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
-                        Toast.makeText(LeaveDetail.this, "出错了!", Toast.LENGTH_LONG).show();
+                       //
+                        Toast.makeText(LeaveDetail.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
                 requestQueue.add(jsonRequest);
@@ -480,15 +477,15 @@ public class LeaveDetail extends Activity {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("发送前的明文：" + postData);
+
                     RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
                     JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.d("TAG", "response -> " + response.toString());
-                                System.out.println("解密后：" + response.toString());
+                               //
+
                                 try {
 
                                     JSONObject dataJson = new JSONObject(response.toString());
@@ -567,7 +564,7 @@ public class LeaveDetail extends Activity {
                         }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e("TAG", error.getMessage(), error);
+                           //
                             Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                         }
                     });
@@ -596,7 +593,7 @@ public class LeaveDetail extends Activity {
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    LogUtil.v("v", response);
+                    LogUtil.v( response);
                     selectmenlist.clear();
                     if (!response.equals(bc.ERROR)) {
                         List<T_Selectman> list = JSON.parseArray(response, T_Selectman.class);
@@ -617,7 +614,7 @@ public class LeaveDetail extends Activity {
             }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                LogUtil.e("e", error.getMessage());
+                LogUtil.e( error.getMessage());
                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
             }
         });
@@ -672,14 +669,14 @@ public class LeaveDetail extends Activity {
                         } catch (JsonProcessingException e) {
                             e.printStackTrace();
                         }
-                        System.out.println("发送前的明文：" + postData);
+
                         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
                         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Log.d("TAG", "response -> " + response.toString());
+                                //
                                     try {
                                         JSONObject dataJson = new JSONObject(response);
                                         String nexttype = dataJson.getString("nextType");
@@ -731,7 +728,7 @@ public class LeaveDetail extends Activity {
                             , new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                LogUtil.e("e", error.getMessage());
+                                LogUtil.e( error.getMessage());
                                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                             }
                         });
@@ -778,15 +775,15 @@ public class LeaveDetail extends Activity {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("发送前的明文：" + postData);
+
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("TAG", "response -> " + response.toString());
-                    System.out.println("解密后：" + response.toString());
+                   //
+                  //
                     //Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
                     if (response.toString().equals("保存意见成功！")) {
                         Toast.makeText(LeaveDetail.this, response.toString(), Toast.LENGTH_SHORT).show();
@@ -805,7 +802,7 @@ public class LeaveDetail extends Activity {
             }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+               //
                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
             }
         });
@@ -904,15 +901,15 @@ public class LeaveDetail extends Activity {
                         } catch (JsonProcessingException e) {
                             e.printStackTrace();
                         }
-                        System.out.println("发送前的明文：" + postData);
+
                         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
                         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Log.d("TAG", "response -> " + response.toString());
-                                    System.out.println("解密后：" + response.toString());
+                                //
+                                 //
 
                                     try {
                                         List<T_Record> list = JsonUtil.getRecordList(response.toString());
@@ -937,7 +934,7 @@ public class LeaveDetail extends Activity {
                             }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e("TAG", error.getMessage(), error);
+                            //
                                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                             }
                         });

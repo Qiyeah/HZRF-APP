@@ -218,7 +218,7 @@ public class ExamineDetailActivity extends Activity {
                 inQueryMsg.setQueryPara(map);
                 String postData = null;
                 postData = common.getPostData(inQueryMsg);
-                //System.out.println("发送前的明文：" + postData);
+                //
                 // Log.e("Response", "postData -> " + postData);
                 RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
@@ -226,7 +226,6 @@ public class ExamineDetailActivity extends Activity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.e("Response", " -> " + response);
                             if (response.toString().equals(bc.ERROR)) {
                                 new TimeOutException().reLogin(getApplicationContext(), new ITimeOutException.CallBack(){
                                     @Override
@@ -281,7 +280,7 @@ public class ExamineDetailActivity extends Activity {
                     }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
+
                         Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -324,14 +323,14 @@ public class ExamineDetailActivity extends Activity {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("发送前的明文：" + postData);
+
                     RequestQueue requestQueue = RequestUtil.getRequestQueue();
                     JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.d("TAG", "response -> " + response.toString());
-                                System.out.println("解密后：" + response.toString());
+
+
                                 try {
                                     JSONObject dataJson = new JSONObject(response.toString());
                                     String type = dataJson.getString("type");
@@ -409,7 +408,7 @@ public class ExamineDetailActivity extends Activity {
                         }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e("TAG", error.getMessage(), error);
+
                             Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                         }
                     });
@@ -649,7 +648,7 @@ public class ExamineDetailActivity extends Activity {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-       // System.out.println("发送前的明文：" + postData);
+       //
 //        Log.e(TAG, "postData: "+postData);
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
@@ -658,7 +657,7 @@ public class ExamineDetailActivity extends Activity {
                 @Override
                 public void onResponse(String response) {
 //                    Log.d(TAG, "response -> " + response.toString());
-                    //System.out.println("解密后：" + response.toString());
+                    //
                     //Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
                     if (response.toString().equals("保存意见成功！")) {
                         Toast.makeText(ExamineDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
@@ -727,14 +726,14 @@ public class ExamineDetailActivity extends Activity {
                         } catch (JsonProcessingException e) {
                             e.printStackTrace();
                         }
-                        System.out.println("发送前的明文：" + postData);
+
                         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
                         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Log.d("TAG", "response -> " + response.toString());
+
                                     try {
                                         JSONObject dataJson = new JSONObject(response);
                                         String nexttype = dataJson.getString("nextType");
@@ -785,7 +784,7 @@ public class ExamineDetailActivity extends Activity {
                             , new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                LogUtil.e("e", error.getMessage());
+                                LogUtil.e( error.getMessage());
                                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                             }
                         });

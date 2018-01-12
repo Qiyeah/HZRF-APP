@@ -6,11 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
 import com.zhilian.hzrf_oa.R;
+import com.zhilian.hzrf_oa.util.LogUtil;
 
 /**
  * Created by Administrator on 2017-9-20.
@@ -78,7 +78,7 @@ public class DownLoadProgressbar extends View{
      */
     public void setCurrentValue(float currentValue) {
         this.currentValue = currentValue;
-        Log.e("Response","currentValue = "+currentValue);
+
         int value = (int) (this.currentValue / maxvalue * 100);
         if (value < 100) {
             percentValue = value + "%";
@@ -95,7 +95,7 @@ public class DownLoadProgressbar extends View{
      * @param maxValue
      */
     public void setMaxValue(float maxValue) {
-        Log.e("Response","maxValue = "+maxValue);
+        LogUtil.e("maxValue = "+maxValue);
 
         this.maxvalue = maxValue;
     }
@@ -113,7 +113,7 @@ public class DownLoadProgressbar extends View{
                 if (currentValue < maxvalue) {
                    // offset = (getWidth() - offsetRight) * currentValue / maxvalue                                                                      ;
                     offset = currentValue/maxvalue*barLen;                                                                   ;
-                    Log.e("Response","offset = "+offset);
+                   LogUtil.e("offset = "+offset);
                 } else {
                     offset = getWidth() - offsetRight;
                 }
@@ -143,6 +143,5 @@ public class DownLoadProgressbar extends View{
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         barLen = w;
-        Log.e("Response","width = "+w);
     }
 }

@@ -57,7 +57,9 @@ import com.zhilian.hzrf_oa.json.T_FJList;
 import com.zhilian.hzrf_oa.json.T_Record;
 import com.zhilian.hzrf_oa.json.T_Selectman;
 import com.zhilian.hzrf_oa.service.DownloadService;
+import com.zhilian.hzrf_oa.util.LogUtil;
 import com.zhilian.hzrf_oa.util.DownLoadUtil;
+
 import com.zhilian.hzrf_oa.util.OpenFileIntent;
 
 import org.json.JSONArray;
@@ -128,7 +130,7 @@ public class DocsendDetail extends Activity {
                     mNotification.contentView.setTextViewText(R.id.content_view_text1, name + " " + result + "%");
                     mNotification.contentView.setProgressBar(R.id.content_view_progress, fileSize, downLoadFileSize, false);
                     mNotificationManager.notify(0, mNotification);
-                    Log.e("size", "文件" + downLoadFileSize + ":" + fileSize + ":" + result);
+                    LogUtil.e("文件" + downLoadFileSize + ":" + fileSize + ":" + result);
                     break;
                 case 2:
                     Toast.makeText(getApplication(), "文件下载完成", Toast.LENGTH_SHORT).show();
@@ -248,15 +250,15 @@ public class DocsendDetail extends Activity {
                         } catch (JsonProcessingException e) {
                             e.printStackTrace();
                         }
-                        System.out.println("发送前的明文：" + postData);
+
                         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
                         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Log.d("TAG", "response -> " + response.toString());
-                                    System.out.println("解密后：" + response.toString());
+
+
 
                                     try {
 
@@ -283,7 +285,7 @@ public class DocsendDetail extends Activity {
                             }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e("TAG", error.getMessage(), error);
+
                                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                             }
                         });
@@ -377,15 +379,15 @@ public class DocsendDetail extends Activity {
                                 } catch (JsonProcessingException e) {
                                     e.printStackTrace();
                                 }
-                                System.out.println("发送前的明文：" + postData);
+
                                 RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
                                 JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                                     new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
-                                            Log.d("TAG", "response -> " + response.toString());
-                                            System.out.println("解密后：" + response.toString());
+
+
 
                                             try {
                                                 JSONObject dataJson = new JSONObject(response.toString());
@@ -474,7 +476,7 @@ public class DocsendDetail extends Activity {
                                     }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        Log.e("TAG", error.getMessage(), error);
+
                                         Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -612,15 +614,15 @@ public class DocsendDetail extends Activity {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("发送前的明文：" + postData);
+
                     RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
                     JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.d("TAG", "response -> " + response.toString());
-                                System.out.println("解密后：" + response.toString());
+
+
                                 try {
                                     JSONObject dataJson = new JSONObject(response.toString());
                                     String type = dataJson.getString("type");
@@ -694,7 +696,7 @@ public class DocsendDetail extends Activity {
                         }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e("TAG", error.getMessage(), error);
+
                             Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                         }
                     });
@@ -758,15 +760,15 @@ public class DocsendDetail extends Activity {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("发送前的明文：" + postData);
+
                     RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
                     JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.d("TAG", "response -> " + response.toString());
-                                System.out.println("解密后：" + response.toString());
+
+
                                 try {
                                     JSONObject dataJson = new JSONObject(response.toString());
                                     String nexttype = dataJson.getString("nextType");
@@ -821,7 +823,7 @@ public class DocsendDetail extends Activity {
                         , new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e("TAG", error.getMessage(), error);
+
                             Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
                         }
                     });
@@ -866,15 +868,15 @@ public class DocsendDetail extends Activity {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("发送前的明文：" + postData);
+
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("TAG", "response -> " + response.toString());
-                    System.out.println("解密后：" + response.toString());
+
+
                     //Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
                     String fjname, opinion, signimg, signdate, sign;
                     Integer fjid;
@@ -961,7 +963,7 @@ public class DocsendDetail extends Activity {
             }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+
                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
             }
         });
@@ -1005,15 +1007,15 @@ public class DocsendDetail extends Activity {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("发送前的明文：" + postData);
+
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("TAG", "response -> " + response.toString());
-                    System.out.println("解密后：" + response.toString());
+
+
                     if (response.toString().equals("没有该文件！")) {
                         Toast.makeText(DocsendDetail.this, "没有该文件！", Toast.LENGTH_SHORT).show();
                     } else {
@@ -1077,7 +1079,7 @@ public class DocsendDetail extends Activity {
             }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+
                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
             }
         });

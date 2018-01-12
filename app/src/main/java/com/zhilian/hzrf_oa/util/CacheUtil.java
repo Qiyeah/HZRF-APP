@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.zhilian.api.StrKit;
+import com.zhilian.rxapi.bean.LeaveDetailBean;
 
 /**
  * Created by Administrator on 2017-12-29.
@@ -16,19 +16,20 @@ public class CacheUtil {
     private SharedPreferences sp;
     private SharedPreferences.Editor mEditor;
 
-    public CacheUtil(Context context,String xmlName) {
+    public CacheUtil(Context context, String xmlName) {
         mContext = context;
         sp = mContext.getSharedPreferences(xmlName, Context.MODE_PRIVATE);
     }
-
-    public <T> T getObject(String key, T obj) {
-        String str = sp.getString(key, "");
-        return StrKit.isBlank(str) ? null : (T) new Gson().fromJson(str, obj.getClass());
-    }
-    public <T> void saveObject(String key,T obj){
+    public void saveObject(String key, LeaveDetailBean obj){
         mEditor = sp.edit();
-        mEditor.putString(key, new GsonBuilder().create().toJson(obj));
+        mEditor.putString(key,  new Gson().toJson(obj));
         mEditor.commit();
         mEditor.clear();
+//        Toast.makeText(mContext, "保存成功！", Toast.LENGTH_SHORT).show();
+    }
+    public LeaveDetailBean getObject(String key, Class clazz) {
+        String str = sp.getString(key, "");
+        LeaveDetailBean leave = (LeaveDetailBean) new GsonBuilder().create().fromJson(str, clazz);
+        return leave;
     }
 }

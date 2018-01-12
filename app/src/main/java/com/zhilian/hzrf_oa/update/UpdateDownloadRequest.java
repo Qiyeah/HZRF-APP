@@ -191,7 +191,6 @@ public class UpdateDownloadRequest implements Runnable {
                 int length = -1;
                 int limit = 0;
                 randomAccessFile = new RandomAccessFile(localFiledPath, "rwd");
-                Log.i(TAG, "currentLength: " + currentLength);
                 while ((length = is.read(buffer)) != -1) {
                     if (isDownloading) {
                         randomAccessFile.write(buffer, 0, length);

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -104,12 +103,12 @@ public class ReceiveService extends Service {
 	class PollingThread extends Thread {
 		@Override
 		public void run() {
-			LogUtil.i("i","Polling...");
+			//LogUtil.e("Polling...");
 			count++;
 			if (count % 5 == 0) {
 				addData();
 				//initNotifiManager();
-				LogUtil.i("i","New message!");
+			//	LogUtil.e("New message!");
 			}
 		}
 	}
@@ -131,14 +130,13 @@ public class ReceiveService extends Service {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		LogUtil.i("i","发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
 			   new Response.Listener<String>() {
 				   @Override
 				   public void onResponse(String response) {
-					   LogUtil.i("i","解密后：" + response.toString());
 					   if (response.equals(bc.ERROR)) {
 						   new TimeOutException().reLogin(getApplicationContext(), new ITimeOutException.CallBack(){
 							   @Override
@@ -170,7 +168,7 @@ public class ReceiveService extends Service {
 			   }, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -180,6 +178,6 @@ public class ReceiveService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		LogUtil.i("i","Service:onDestroy");
+
 	}
 }

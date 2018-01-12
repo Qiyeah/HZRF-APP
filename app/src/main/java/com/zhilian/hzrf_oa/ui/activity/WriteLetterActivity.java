@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -265,7 +264,7 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 						String options = "选择的项是:";
 						String data = "";
 						for (int j = 0; j < mansAdapter.getCount(); j++) {
-							LogUtil.i("i","state.get(" + j + ")==" + state.get(j));
+							LogUtil.e("state.get(" + j + ")==" + state.get(j));
 							if (state.get(j) != null) {
 								String username = selectmenlist.get(j).getName();
 								String id = String.valueOf(selectmenlist.get(j).getId());
@@ -316,7 +315,7 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 						String options = "选择的项是:";
 						String data = "";
 						for (int j = 0; j < mansAdapter.getCount(); j++) {
-							LogUtil.i("i","state.get(" + j + ")==" + state.get(j));
+							LogUtil.e("state.get(" + j + ")==" + state.get(j));
 							if (state.get(j) != null) {
 								String username = selectmenlist.get(j).getName();
 								String id = String.valueOf(selectmenlist.get(j).getId());
@@ -403,12 +402,12 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 				}
 				break;
 			case R.id.send:// 发送
-				/*LogUtil.i("i","收件人id--------->"+receiver_id);
-				LogUtil.i("i","收件人--------->"+receiver.getText().toString());
-				LogUtil.i("i","抄送人id--------->"+copyer_id);
-				LogUtil.i("i","抄送人--------->"+copyer.getText().toString());
-				LogUtil.i("i","主题--------->"+title.getText().toString());
-				LogUtil.i("i","正文--------->"+content.getText().toString());*/
+				/*LogUtil.e("收件人id--------->"+receiver_id);
+				LogUtil.e("收件人--------->"+receiver.getText().toString());
+				LogUtil.e("抄送人id--------->"+copyer_id);
+				LogUtil.e("抄送人--------->"+copyer.getText().toString());
+				LogUtil.e("主题--------->"+title.getText().toString());
+				LogUtil.e("正文--------->"+content.getText().toString());*/
 				savedata(0,2,receiver_id,receiver.getText().toString(),copyer_id,
 						copyer.getText().toString(),title.getText().toString(),
 						content.getText().toString());
@@ -438,7 +437,7 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 						String data_username = "";
 						String data_id = "";
 						for (int j = 0; j < adapter.getCount(); j++) {
-							LogUtil.i("i","state.get(" + j + ")==" + state.get(j));
+							LogUtil.e("state.get(" + j + ")==" + state.get(j));
 							if (state.get(j) != null) {
 								@SuppressWarnings("unchecked")
 								HashMap<String, Object> map = (HashMap<String, Object>) adapter.getItem(j);
@@ -492,7 +491,7 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 						String data_username = "";
 						String data_id = "";
 						for (int j = 0; j < adapter.getCount(); j++) {
-							LogUtil.i("i","state.get(" + j + ")==" + state.get(j));
+							LogUtil.e("state.get(" + j + ")==" + state.get(j));
 							if (state.get(j) != null) {
 								@SuppressWarnings("unchecked")
 								HashMap<String, Object> map = (HashMap<String, Object>) adapter.getItem(j);
@@ -537,7 +536,7 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 		map.put("id", String.valueOf(id));
 		System.out.print("receiverId="+receiverId);
 		map.put("boxId", String.valueOf(boxId));
-		LogUtil.i("i","boxid------->"+boxId);
+		LogUtil.e("boxid------->"+boxId);
 		map.put("isRead","0");
 		map.put("receiverId", receiverId.substring(1));// 收件人id
 		map.put("receiver", receiver);// 收件人
@@ -562,7 +561,7 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		LogUtil.i("i","发送前的明文：" + postData);
+
 
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
@@ -570,8 +569,7 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
-						LogUtil.i("i","解密后：" + response.toString());
+
 						Toast.makeText(WriteLetterActivity.this,response.toString(),Toast.LENGTH_SHORT).show();
 						/*ObjectMapper objectMapper = new ObjectMapper();
 						objectMapper.configure(
@@ -592,7 +590,7 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(WriteLetterActivity.this, "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -619,19 +617,17 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		LogUtil.i("i","发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
-						LogUtil.i("i","解密后：" + response.toString());
 
 						List<PersonnalADepartment> list = JsonUtil.getPersonnalADepartment(response.toString());
 
-						LogUtil.i("i","list-->" + list.toString());
+						LogUtil.e("list-->" + list.toString());
 
 						int id, d_id;
 						String name, sname;
@@ -643,10 +639,10 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 							PersonnalADepartment p1 = new PersonnalADepartment(d_id, sname);
 							group.add(p1);
 						}
-						LogUtil.i("i","拿到的所有科室-->" + group.toString());
+						LogUtil.e("拿到的所有科室-->" + group.toString());
 
 						//lists = list.get(1).getFname();
-						//LogUtil.i("i","listlist----->"+lists.toString());
+						//LogUtil.e("listlist----->"+lists.toString());
 
 						for (int j = 0; j < list.size(); j++) {// 对应科室的联系人（子层）
 
@@ -654,7 +650,7 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 
 							child = new ArrayList<Test>();
 							for (int i = 0; i < lists.size(); i++) {
-								//LogUtil.i("i","size()----->"+lists.size());
+								//LogUtil.e("size()----->"+lists.size());
 								id = (Integer) (((Map) lists.get(i)).get("id"));
 								name = (String) ((Map) lists.get(i)).get("name");
 								Test t = new Test(id, name);
@@ -662,18 +658,18 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 							}
 							total.add(j, child);
 
-							LogUtil.i("i","sssssssssss-->" + total.toString());
+							LogUtil.e("sssssssssss-->" + total.toString());
 
-							//LogUtil.i("i","sssssssssss-->"+total.toString());
+							//LogUtil.e("sssssssssss-->"+total.toString());
 
 						}
 
-						LogUtil.i("i","sssssssssss-->" + total.toString());
+						LogUtil.e("sssssssssss-->" + total.toString());
 					}
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(WriteLetterActivity.this, "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -697,15 +693,13 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		LogUtil.i("i","发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
-						LogUtil.i("i","解密后：" + response.toString());
 
 						List<SelectPerson> list = JsonUtil.getPersonnalInfo(response.toString());
 
@@ -754,7 +748,7 @@ public class WriteLetterActivity extends Activity implements OnClickListener{
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(WriteLetterActivity.this, "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});

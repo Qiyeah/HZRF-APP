@@ -104,7 +104,7 @@ public class NoteDetailActivity extends Activity {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("发送前的明文：" + postData);
+
 
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
@@ -112,8 +112,8 @@ public class NoteDetailActivity extends Activity {
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
-						System.out.println("解密后：" + response.toString());
+
+
 
 						ObjectMapper objectMapper = new ObjectMapper();
 						objectMapper.configure(
@@ -134,7 +134,7 @@ public class NoteDetailActivity extends Activity {
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(NoteDetailActivity.this, "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -165,7 +165,7 @@ public class NoteDetailActivity extends Activity {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("发送前的明文：" + postData);
+
 
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
@@ -173,8 +173,8 @@ public class NoteDetailActivity extends Activity {
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
-						System.out.println("解密后：" + response.toString());
+
+
 
 						Toast.makeText(NoteDetailActivity.this,response.toString(),Toast.LENGTH_SHORT).show();
 
@@ -182,7 +182,7 @@ public class NoteDetailActivity extends Activity {
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(NoteDetailActivity.this, "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});

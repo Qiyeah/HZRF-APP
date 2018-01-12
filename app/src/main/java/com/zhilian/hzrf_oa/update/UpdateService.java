@@ -10,9 +10,10 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.zhilian.hzrf_oa.R;
+import com.zhilian.hzrf_oa.util.LogUtil;
+
 
 import java.io.File;
 
@@ -39,7 +40,7 @@ public class UpdateService extends Service {
             stopSelf();
         }
         apkURL = intent.getStringExtra("apkUrl");
-        Log.i(TAG, "下载地址: " + apkURL);
+        LogUtil.e("下载地址: " + apkURL);
         notifyUser(getString(R.string.update_download_start), getString(R.string.update_download_start), 0);
         startDownload();
         return super.onStartCommand(intent, flags, startId);

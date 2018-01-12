@@ -2,12 +2,9 @@ package com.zhilian.hzrf_oa.net_exception;
 
 import android.content.Context;
 import android.os.Looper;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.zhilian.hzrf_oa.common.BusinessContant;
-import com.zhilian.hzrf_oa.ui.leave.constant.LocalConstants;
-import com.zhilian.hzrf_oa.ui.leave.util.LogUtil;
+import com.zhilian.rxapi.constant.LocalConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +33,7 @@ public class LoginUtil{
             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();  //创建一个HTTP连接
             urlConn.connect();
 
-            LogUtil.e("response code:" + urlConn.getResponseCode());
+           //
             if (urlConn.getResponseCode() == 200) {
                 InputStream in = urlConn.getInputStream(); // 获得读取的内容
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));

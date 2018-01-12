@@ -11,8 +11,9 @@ import android.widget.CompoundButton;
 import com.zhilian.hzrf_oa.R;
 import com.zhilian.hzrf_oa.common.BusinessContant;
 import com.zhilian.hzrf_oa.json.T_Selectman;
-import com.zhilian.hzrf_oa.util.LogUtil;
+
 import com.zhilian.api.StrKit;
+import com.zhilian.hzrf_oa.util.LogUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -83,7 +84,7 @@ public class SelectmanAdapter extends BaseAdapter {
                     }
                     bc.setUserid(mensid);
                 }
-                LogUtil.i("i", mensid);
+                LogUtil.e(mensid);
             }
         });
         selectman.setChecked((state.get(position) == null ? false : true));

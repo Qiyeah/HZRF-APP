@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -27,7 +26,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import static com.zhilian.hzrf_oa.R.drawable.discover;
 import static com.zhilian.hzrf_oa.R.drawable.fj_icon;
 
 /**
@@ -66,7 +64,7 @@ public class DownLoadUtil {
                         dialog.cancel();
                     }
 
-                    Log.e("size", "文件" + downLoadFileSize + ":" + fileSize + ":" + result);
+                    LogUtil.e("文件" + downLoadFileSize + ":" + fileSize + ":" + result);
                     break;
                 case 2:
                     dialog.dismiss();
@@ -223,7 +221,6 @@ public class DownLoadUtil {
             //Log.i("num", rate+","+total+","+p);
             if (times >= 512 || times == 0 || downLoadFileSize == this.fileSize) {/*
                     这是防止频繁地更新通知，而导致系统变慢甚至崩溃。   非常重要。。。。。*/
-                Log.i("time", "time");
                 times = 0;
 
                 sendMsg(1);
@@ -236,7 +233,7 @@ public class DownLoadUtil {
             fos.close();
             is.close();
         } catch (Exception ex) {
-            Log.e("tag", "error: " + ex.getMessage(), ex);
+            LogUtil.e(ex.getMessage());
         }
 
     }
@@ -248,7 +245,7 @@ public class DownLoadUtil {
     }
 
     private void initHorizontalProgressDialog(){
-        LogUtil.e("progress","initprogress");
+        LogUtil.e("initprogress");
         dialog  = new ProgressDialog(context);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setCancelable(true);// 设置是否可以通过点击Back键取消

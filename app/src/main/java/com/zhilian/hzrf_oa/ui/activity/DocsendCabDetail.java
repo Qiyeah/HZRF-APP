@@ -43,7 +43,6 @@ import com.zhilian.hzrf_oa.json.T_FJList;
 import com.zhilian.hzrf_oa.json.T_Record;
 import com.zhilian.hzrf_oa.json.T_Selectman;
 import com.zhilian.hzrf_oa.util.DownLoadUtil;
-import com.zhilian.hzrf_oa.util.LogUtil;
 import com.zhilian.hzrf_oa.util.OpenFileIntent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -227,15 +226,13 @@ public class DocsendCabDetail extends Activity{
 						} catch (JsonProcessingException e) {
 							e.printStackTrace();
 						}
-						LogUtil.i("i","发送前的明文：" + postData);
+
 						RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 						JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
 								new Response.Listener<String>() {
 									@Override
 									public void onResponse(String response) {
-										Log.d("TAG", "response -> " + response.toString());
-										LogUtil.i("i","解密后：" + response.toString());
 
 										try{
 
@@ -261,7 +258,7 @@ public class DocsendCabDetail extends Activity{
 								}, new Response.ErrorListener() {
 							@Override
 							public void onErrorResponse(VolleyError error) {
-								Log.e("TAG", error.getMessage(), error);
+
 								Toast.makeText(getApplicationContext(),"出错了!",Toast.LENGTH_LONG).show();
 							}
 						});
@@ -321,15 +318,14 @@ public class DocsendCabDetail extends Activity{
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		LogUtil.i("i","发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
-						LogUtil.i("i","解密后：" + response.toString());
+
 						//Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
 						String fjname,opinion, signimg, signdate,sign;
 						Integer fjid;
@@ -409,7 +405,7 @@ public class DocsendCabDetail extends Activity{
 				} , new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -446,15 +442,14 @@ public class DocsendCabDetail extends Activity{
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		LogUtil.i("i","发送前的明文：" + postData);
+
 		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
 		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Log.d("TAG", "response -> " + response.toString());
-						LogUtil.i("i","解密后：" + response.toString());
+
 						if (response.toString().equals("没有该文件！")) {
 							Toast.makeText(DocsendCabDetail.this, "没有该文件！", Toast.LENGTH_SHORT).show();
 						} else {
@@ -511,7 +506,7 @@ public class DocsendCabDetail extends Activity{
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("TAG", error.getMessage(), error);
+
 				Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -557,7 +552,6 @@ public class DocsendCabDetail extends Activity{
 			{/*
                     这是防止频繁地更新通知，而导致系统变慢甚至崩溃。
                                                              非常重要。。。。。*/
-				Log.i("time", "time");
 				times=0;
 				sendMsg(1);
 			}

@@ -153,8 +153,7 @@ public class ExamineFragment extends CustomListFragment implements CustomListVie
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("发送前的明文：" + postData);
-      //  Log.e("Response","解密后：" + postData.toString());
+
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
@@ -202,7 +201,6 @@ public class ExamineFragment extends CustomListFragment implements CustomListVie
             }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
                 Toast.makeText(getActivity(),"出错了!",Toast.LENGTH_LONG).show();
             }
         });
@@ -240,7 +238,7 @@ public class ExamineFragment extends CustomListFragment implements CustomListVie
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("发送前的明文：" + postData);
+
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
@@ -248,15 +246,11 @@ public class ExamineFragment extends CustomListFragment implements CustomListVie
                 @Override
                 public void onResponse(String response) {
                     list = JsonUtil.getObjectList(response.toString(),T_Examine.class);
-                   /* for (T_Examine t_examine : list) {
-                        Log.e("Response", t_examine.toString());
-                    }*/
-                        /*PageReceive page = JSON.parseObject(response.toString(), PageReceive.class);
-                        list = page.getList();*/
+
                     if (list.size() > 0) {
                         pageNumber++;
                         for (int i = 0; i < list.size(); i++) {
-                            //list.get(i).setStatus(1);
+
                             adapterlist.add(list.get(i));
                         }
                         if (pageNumber == 2) {//第一次请求的数据
@@ -278,7 +272,6 @@ public class ExamineFragment extends CustomListFragment implements CustomListVie
             }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
                 Toast.makeText(getActivity(),"出错了!",Toast.LENGTH_LONG).show();
             }
         });

@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zhilian.hzrf_oa.R;
+import com.zhilian.hzrf_oa.base.BaseFragment;
 import com.zhilian.hzrf_oa.ui.fragment.OnFragmentInteractionListener;
 import com.zhilian.hzrf_oa.ui.fragment.ReceiveDoneFragment;
 import com.zhilian.hzrf_oa.ui.fragment.ReceiveTodoFragment;
@@ -89,6 +90,8 @@ public class ReceiveManageActivity  extends FragmentActivity implements View.OnC
 
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOnPageChangeListener(this);
+
+
     }
     @Override
     public void onFragmentInteraction(Uri uri) {

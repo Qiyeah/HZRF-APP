@@ -102,8 +102,8 @@
         <item>未婚</item>
     </string-array>
     <string-array name="apply_dayt_type">
-        <item>多天</item>
         <item>一天</item>
         <item>半天</item>
+        <item>多天</item>
     </string-array>
 </resources>

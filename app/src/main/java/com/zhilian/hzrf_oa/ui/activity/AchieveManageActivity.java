@@ -216,15 +216,15 @@ public class AchieveManageActivity extends Activity implements AbsListView.OnScr
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        // System.out.println("发送前的明文：" + postData);
+        //
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("TAG", "response -> " + response.toString());
-                    // System.out.println("解密后：" + response.toString());
+
+                    //
 
                     PageAchieve page = JSON.parseObject(response.toString(), PageAchieve.class);
                     list = page.getList();
@@ -257,7 +257,7 @@ public class AchieveManageActivity extends Activity implements AbsListView.OnScr
             }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+
                 Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
             }
         });
@@ -295,7 +295,7 @@ public class AchieveManageActivity extends Activity implements AbsListView.OnScr
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("发送前的明文：" + postData);
+
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
             new Response.Listener<String>() {
@@ -336,7 +336,7 @@ public class AchieveManageActivity extends Activity implements AbsListView.OnScr
             }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+
 
             }
         });

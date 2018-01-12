@@ -161,7 +161,7 @@ public class ReceiveDoneFragment extends CustomListFragment implements CustomLis
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("发送前的明文：" + postData);
+
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
@@ -169,7 +169,6 @@ public class ReceiveDoneFragment extends CustomListFragment implements CustomLis
                     @Override
                     public void onResponse(String response) {
 
-                        Log.e("Response","解密后：" + response.toString());
                         if (response.equals(bc.ERROR)) {
                             new TimeOutException().reLogin(getActivity(), new ITimeOutException.CallBack(){
                                 @Override
@@ -207,7 +206,7 @@ public class ReceiveDoneFragment extends CustomListFragment implements CustomLis
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+
                 Toast.makeText(getActivity(),"出错了!",Toast.LENGTH_LONG).show();
             }
         });
@@ -245,7 +244,7 @@ public class ReceiveDoneFragment extends CustomListFragment implements CustomLis
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("发送前的明文：" + postData);
+
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
@@ -290,7 +289,7 @@ public class ReceiveDoneFragment extends CustomListFragment implements CustomLis
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+
                 Toast.makeText(getActivity(),"出错了!",Toast.LENGTH_LONG).show();
             }
         });

@@ -166,7 +166,7 @@ public class InnerSendUnreadFragment extends CustomListFragment implements Custo
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-       // System.out.println("发送前的明文：" + postData);
+       //
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
@@ -212,7 +212,7 @@ public class InnerSendUnreadFragment extends CustomListFragment implements Custo
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+
                 Toast.makeText(getActivity(),"出错了!",Toast.LENGTH_LONG).show();
             }
         });
@@ -251,7 +251,7 @@ public class InnerSendUnreadFragment extends CustomListFragment implements Custo
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("发送前的明文：" + postData);
+
         RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
         JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST,url, postData,
@@ -298,7 +298,7 @@ public class InnerSendUnreadFragment extends CustomListFragment implements Custo
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
+
                 Toast.makeText(getActivity(),"出错了!",Toast.LENGTH_LONG).show();
             }
         });

@@ -121,14 +121,13 @@
                     android:background="#DCDCDC" />
 
                 <Spinner
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:id="@+id/type"
-                    android:entries="@array/apply_types"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:layout_height="20dp" />
+                    android:minWidth="0dp" />
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
@@ -304,44 +303,44 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="#DCDCDC" />
-                <LinearLayout
+
+                <Spinner
+                    android:id="@+id/sp_dayt_type"
                     android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
+                    android:gravity="center"
+                    android:entries="@array/apply_dayt_type"></Spinner>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                   />
+                <EditText
+                    android:id="@+id/dayt"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:minHeight="30dp"
+                    android:gravity="center"
+                    android:background="@drawable/shape_edit_bg"
+                    android:visibility="invisible"
+                    android:text="0.5"
+                    android:layout_width="0dp" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                   />
+                <TextView
+                    android:id="@+id/dayt_unit"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:minHeight="30dp"
                     android:gravity="center_vertical"
-                    android:layout_weight="3">
+                    android:visibility="invisible"
+                    android:text="天"
+                    android:layout_width="0dp" />
 
-                    <Spinner
-                        android:id="@+id/sp_dayt_type"
-                        android:layout_width="75dp"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:clickable="false"
-                        android:entries="@array/apply_dayt_type"></Spinner>
-
-
-                       <EditText
-                           android:id="@+id/dayt"
-                           android:layout_width="60dp"
-                           android:layout_height="match_parent"
-                           android:layout_alignParentBottom="true"
-                           android:layout_marginLeft="13dp"
-                           android:layout_marginStart="13dp"
-                           android:layout_toEndOf="@+id/sp_dayt_type"
-                           android:layout_toRightOf="@+id/sp_dayt_type"
-                           android:background="@drawable/shape_edit_bg"
-                           android:gravity="center"
-                           android:inputType="textMultiLine"
-                           android:lineSpacingMultiplier="1.2"
-                           android:minHeight="30dp"
-                           android:text="0.5" />
-                    <TextView
-                        android:text="天"
-                        android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -375,10 +374,11 @@
 
                 <TextView
                     android:id="@+id/njqk"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:singleLine="true"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:minHeight="30dp"/>
+                    android:text="工龄 118 年，可休年假 15.0 天，已休 2.0 天，剩余 13.0 天"/>
                 </RelativeLayout>
 
             </LinearLayout>
@@ -405,6 +405,7 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="#DCDCDC" />
+
 
                 <RelativeLayout
                     android:layout_width="0dp"
