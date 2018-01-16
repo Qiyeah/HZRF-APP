@@ -1,4 +1,4 @@
-package com.zhilian.hzrf_oa.ui.leave.view;
+package com.zhilian.hzrf_oa.ui.egress.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -33,23 +33,23 @@ import com.zhilian.api.Sign;
 import com.zhilian.hzrf_oa.R;
 import com.zhilian.hzrf_oa.adapter.MySpinnerAdapter;
 import com.zhilian.hzrf_oa.adapter.SelectmanAdapter;
+import com.zhilian.hzrf_oa.base.BaseActivity;
 import com.zhilian.hzrf_oa.common.BusinessContant;
 import com.zhilian.hzrf_oa.common.Common;
 import com.zhilian.hzrf_oa.json.T_Selectman;
-import com.zhilian.hzrf_oa.base.BaseActivity;
+import com.zhilian.hzrf_oa.listener.OnItemSelectedListenerImpl;
+import com.zhilian.hzrf_oa.ui.egress.presenter.EgressDetailPresenter;
 import com.zhilian.hzrf_oa.ui.widget.DatePickerFragment;
 import com.zhilian.hzrf_oa.ui.widget.EditFragment;
-import com.zhilian.rxapi.bean.LeaveDetailBean;
-import com.zhilian.rxapi.constant.Constants;
-import com.zhilian.rxapi.constant.ErrorConstants;
-import com.zhilian.rxapi.constant.LocalConstants;
-import com.zhilian.hzrf_oa.listener.OnItemSelectedListenerImpl;
-import com.zhilian.hzrf_oa.ui.leave.presenter.LeaveDetailPresenter;
 import com.zhilian.hzrf_oa.util.CacheUtil;
 import com.zhilian.hzrf_oa.util.DateUtil;
 import com.zhilian.hzrf_oa.util.LogUtil;
-import com.zhilian.hzrf_oa.util.StrKit;
 import com.zhilian.hzrf_oa.util.OpinionUtil;
+import com.zhilian.hzrf_oa.util.StrKit;
+import com.zhilian.rxapi.bean.EgressDetailBean;
+import com.zhilian.rxapi.constant.Constants;
+import com.zhilian.rxapi.constant.ErrorConstants;
+import com.zhilian.rxapi.constant.LocalConstants;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -69,7 +69,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2017-12-29.
  */
 
-public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailView {
+public class EgressDetailActivity extends BaseActivity implements IEgressDetailView {
 	@BindView(R.id.iv_back)
 	ImageView mIvBack;
 	@BindView(R.id.tv_title)
@@ -80,8 +80,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 	TextView mDname;
 	@BindView(R.id.type)
 	Spinner mType;
-	@BindView(R.id.married)
-	TextView mMarried;
+
 	@BindView(R.id.approvedate)
 	TextView mApprovedate;
 	@BindView(R.id.sp_dayt_type)
@@ -97,10 +96,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 
 	/*  @BindView(R.id.fj_list)
 	  NoScrollListView mFjList;*/
-	@BindView(R.id.backdate)
-	TextView mBackdate;
-	@BindView(R.id.days)
-	TextView mDays;
+
 	@BindView(R.id.bt_submit)
 	Button mBtSubmit;
 	@BindView(R.id.bt_save)
@@ -108,8 +104,6 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 
 	@BindView(R.id.bt_return)
 	Button mBtReturn;
-   /* @BindView(R.id.bt_update)
-	Button mBtUpdate;*/
 
 	@BindViews({R.id.bt_reason, R.id.bt_opinion1, R.id.bt_opinion2})
 	List<Button> mWriteBtns;
@@ -119,22 +113,18 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 
 	@BindViews({R.id.reason, R.id.opinion1, R.id.opinion2})
 	List<TextView> mWriteEts;
-	@BindView(R.id.history)
-	TextView mHistory;
-	@BindView(R.id.njqk)
-	TextView mNjqk;
 
 	private int task = 0;
-	private LeaveDetailBean leave;
-	private LeaveDetailPresenter mPresenter;
-	private String fileName = "leave";
+	private EgressDetailBean egress;
+	private EgressDetailPresenter mPresenter;
+	private String fileName = "egress";
 	private int index;
 
 
 	@Override
 	public void initData() {
 		task = getIntent().getIntExtra("task", 0);
-		mPresenter = new LeaveDetailPresenter(this);
+		mPresenter = new EgressDetailPresenter(this);
 		docid = getIntent().getStringExtra("docid");
 		index = getIntent().getIntExtra("index", 0);
 		isdone = getIntent().getStringExtra("isdone");
@@ -143,67 +133,53 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 			case Constants.TASK_TODO:
 				if (!"0".equals(docid)) {
 					try {
-						leave = new CacheUtil(getApplicationContext(), fileName).
-							getObject(LocalConstants.USER_NAME + "-" + docid, LeaveDetailBean.class);
-						updateView();
-						switchDisplayBtns();
+						egress = new CacheUtil(getApplicationContext(), fileName).
+							getEgress(LocalConstants.USER_NAME + "-" + docid, EgressDetailBean.class);
+						if (null != egress){
+							updateView();
+							switchDisplayBtns();
+						}
 					} catch (Exception e) {
-						LogUtil.e(ErrorConstants.ERROR_LOAD_CACHE);
+						//LogUtil.e(ErrorConstants.ERROR_LOAD_CACHE);
 					}
 				}
-				if (null == leave){
-					mPresenter.getLeaveDetail(docid, isdone);
-				}
-				break;
-			case Constants.TASK_DONE:
-				mPresenter.getLeaveDetail(docid, isdone);
 				break;
 		}
-
-
+		if (null == egress){
+			mPresenter.getEgressDetail(docid, isdone);
+		}
 	}
 
 
 	@Override
 	public void setApplyDate(String date) {
 		mApprovedate.setText(date);
-		leave.setApprovedate(date);
+
 	}
 
 	@Override
 	public void setBeginDate(String date) {
 		mBegindate.setText(date);
-		leave.setBegindate(date);
+		egress.setBegindate(date);
 	}
 
-	private void updateDayt() {
-		double dayt = 0;
-		if (StrKit.notBlank(leave.getBegindate()) && StrKit.notBlank(leave.getEnddate())) {
-			dayt = DateUtil.getInstance().diffDays(leave.getEnddate(), leave.getBegindate());
-		}
-		if (dayt > 0) {
-			mPresenter.getLeaveDayt(leave.getBegindate(), leave.getEnddate());
-		} else {
-
-		}
-	}
 
 	@Override
 	public void setEndDate(String date) {
 		mEnddate.setText(date);
-		leave.setEnddate(date);
-		updateDayt();
+		egress.setEnddate(date);
+		double dayt = 0.0;
+		if (StrKit.notBlank(egress.getBegindate()) && StrKit.notBlank(egress.getEnddate())) {
+			dayt = DateUtil.getInstance().diffDays(egress.getEnddate(), egress.getBegindate());
+		}
+		mDayt.setText(""+dayt);
+		egress.setDayt(""+dayt);
 	}
 
-	@Override
-	public void setBackDate(String date) {
-		mBackdate.setText(date);
-		leave.setBackdate(date);
-	}
 
 	@Override
 	protected int layoutRes() {
-		return R.layout.activity_leave_detail;
+		return R.layout.activity_egress_detail;
 	}
 
 	@Override
@@ -221,14 +197,15 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 
 	@OnClick(R.id.iv_back)
 	public void onMIvBackClicked() {
-		if (task == Constants.TASK_NEW && null != leave) {
-			new CacheUtil(this, fileName).saveObject(LocalConstants.USER_NAME + "-" + leave.getId(), leave);
-		}
+//		if (task == Constants.TASK_NEW && null != egress) {
+//			new CacheUtil(this, fileName).saveObject(LocalConstants.USER_NAME + "-" + egress.getId(), egress);
+//		}
 		finish();
 	}
 
 	@OnClick(R.id.bt_submit)
 	public void onMBtSubmitClicked() {
+		egress.setDayt(mDayt.getText().toString().trim());
 		submit();
 		Intent intent = new Intent();
 		intent.putExtra("index", index);
@@ -238,7 +215,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 
 	@OnClick(R.id.bt_save)
 	public void onMBtSaveClicked() {
-		new CacheUtil(this, fileName).saveObject(LocalConstants.USER_NAME + "-" + leave.getId(), leave);
+		new CacheUtil(this, fileName).saveEgress(LocalConstants.USER_NAME + "-" + egress.getId(), egress);
 		setResult(Constants.TASK_NEW);
 		finish();
 	}
@@ -247,16 +224,16 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 	@OnClick({R.id.approvedate, R.id.begindate, R.id.enddate})
 	public void onSelectDateClicked(View view) {
 		String tempStr = "";
-		if (null != leave) {
+		if (null != egress) {
 			switch (view.getId()) {
 				case R.id.approvedate:
-					tempStr = leave.getApprovedate();
+					tempStr = egress.getApprovedate();
 					break;
 				case R.id.begindate:
-					tempStr = leave.getBegindate();
+					tempStr = egress.getBegindate();
 					break;
 				case R.id.enddate:
-					tempStr = leave.getEnddate();
+					tempStr = egress.getEnddate();
 					break;
 			}
 			DatePickerFragment dialog = new DatePickerFragment(this, view.getId(), tempStr);
@@ -267,11 +244,11 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (task == Constants.TASK_NEW) {
-				if (null != leave){
-					new CacheUtil(this, fileName).saveObject(LocalConstants.USER_NAME + "-" + leave.getId(), leave);
-				}
-			}
+//			if (task == Constants.TASK_NEW) {
+//				if (null != egress){
+//					new CacheUtil(this, fileName).saveObject(LocalConstants.USER_NAME + "-" + egress.getId(), egress);
+//				}
+//			}
 			finish();
 		}
 		return super.onKeyDown(keyCode,event);
@@ -286,7 +263,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 	@Override
 	public void onReasonChanged(String reason) {
 		mWriteEts.get(0).setText(reason);
-		leave.setReason(reason);
+		egress.setReason(reason);
 		if (StrKit.notBlank(reason)) {
 			mSubmitBtns.get(0).setVisibility(View.VISIBLE);
 			mSubmitBtns.get(1).setVisibility(View.VISIBLE);
@@ -301,11 +278,11 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 	@Override
 	public void onOpinion1Changed(String opinion) {
 		mWriteEts.get(1).setText(OpinionUtil.getOpinion("", opinion, LocalConstants.USER_NAME));
-		leave.setOpinion1(opinion);
+		egress.setOpinion1(opinion);
 		if (StrKit.notBlank(opinion)) {
 			mSubmitBtns.get(1).setVisibility(View.VISIBLE);
 		}
-		mPresenter.saveOpinion(Constants.SAVE_OPINION, leave);
+		mPresenter.saveOpinion(Constants.SAVE_OPINION, egress);
 	}
 
 	/**
@@ -318,85 +295,42 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 		if (StrKit.notBlank(opinion)) {
 			mSubmitBtns.get(1).setVisibility(View.VISIBLE);
 		}
-		mPresenter.saveOpinion("editopinion", leave);
+		mPresenter.saveOpinion(Constants.SAVE_OPINION, egress);
 	}
 
-	/**
-	 * 显示加载成功的请假详情
-	 *
-	 * @param bean
-	 */
 	@Override
-	public void onGetLeaveDetailSuccess(LeaveDetailBean bean) {
-		leave = bean;
+	public void setBackDate(String date) {
+
+	}
+
+	@Override
+	public void getEgressDetail(EgressDetailBean detail) {
+		egress=detail;
+		LogUtil.e("egress:\n"+detail);
 		updateView();
 		switchDisplayBtns();
 	}
 
-	/**
-	 * 显示保存意见成功时的返回结果
-	 *
-	 * @param result
-	 */
-	@Override
-	public void onSaveOpinionSuccess(String result) {
-		Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
-	}
 
-	/**
-	 * 显示保存意见失败时的返回结果
-	 *
-	 * @param result
-	 */
-	@Override
-	public void onSaveOpinionFailure(String result) {
-		Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
-	}
 
-	/**
-	 * 更新请假天数
-	 *
-	 * @param dayt
-	 */
-	@Override
-	public void updateDayt(String dayt) {
-		mDayt.setText(dayt);
-		leave.setDayt(dayt);
-	}
-
-	@Override
-	public void onDisconnected(String message) {
-		if (message.equals(Constants.RESPONSE_ERROR)) {
-			//TODO 重新获取key（重新登陆),并请求数据
-		} else {
-			Toast.makeText(this, Constants.LEAVE_DETAIL_ERROR, Toast.LENGTH_SHORT).show();
-		}
-	}
 
 	/**
 	 * 更新页面数据
 	 */
 	private void updateView() {
-		String uname = leave.getUname();
-		String dname = leave.getDname();
-		String married = leave.getMarried();
-		String type = leave.getType();
-		String approvedate = leave.getApprovedate();
-		String dayt = leave.getDayt();
-		String begindate = leave.getBegindate();
-		String enddate = leave.getEnddate();
-		String reason = leave.getReason();
-		String opinion1 = leave.getOpinion1();
-		String opinion2 = leave.getOpinion2();
-		String backdate = leave.getBackdate();
-		String days = leave.getDays();
-		String daye = leave.getDaye().trim();
-		String workyear = leave.getWorkyear().trim();
-		String dayc = leave.getDayc().trim();
-		String dayg = leave.getDayg().trim();
-		String dayn = leave.getDayn().trim();
-		final String[] types = leave.getTypes().toArray(new String[]{});
-		mNjqk.setText("工龄 " + workyear + " 年，可休年假 " + daye + " 天，已休 " + dayn + " 天，剩余 " + dayc + " 天");
+
+		String uname = egress.getUname();
+		String dname = egress.getDname();
+		String type = egress.getType();
+		String approvedate = egress.getApprovedate();
+		String dayt = egress.getDayt();
+		String begindate = egress.getBegindate();
+		String enddate = egress.getEnddate();
+		String reason = egress.getReason();
+		String opinion1 = egress.getOpinion1();
+		String opinion2 = egress.getOpinion2();
+		String dayg  =egress.getDayg();
+		final String[] types = egress.getTypes().toArray(new String[]{});
 		if (null != type) {
 			for (int i = 0; i < types.length; i++) {
 				if (type.equals(types[i]))
@@ -406,16 +340,14 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 		mType.setOnItemSelectedListener(new OnItemSelectedListenerImpl() {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-				leave.setType(types[i]);
+				egress.setType(types[i]);
 			}
 		});
 		mType.setAdapter(new MySpinnerAdapter(this,types));
 		if (StrKit.notBlank(dname)) {
 			mDname.setText(dname);
 		}
-		if (StrKit.notBlank(married)) {
-			mMarried.setText(married);
-		}
+
 		if (StrKit.notBlank(uname)) {
 			mUname.setText(uname);
 		}
@@ -431,12 +363,8 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 		if (StrKit.notBlank(enddate)) {
 			mEnddate.setText(enddate);
 		}
-		if (StrKit.notBlank(backdate)) {
-			mBackdate.setText(backdate);
-		}
-		if (StrKit.notBlank(days)) {
-			mDays.setText(days);
-		}
+
+
 		if (StrKit.notBlank(reason)) {
 			mWriteEts.get(0).setText(reason);
 		}
@@ -450,6 +378,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 
 		if (StrKit.notBlank(dayg)){
 			int i = Arrays.asList(Constants.DAYT_TYPE).indexOf(dayg);
+			egress.setDayg(Constants.DAYT_TYPE[i]);
 			mDayType.setSelection(i);
 			if (i == 0){
 				mDayt.setVisibility(View.VISIBLE);
@@ -457,20 +386,22 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 			}
 		}else {
 			mDayType.setSelection(0);
+			egress.setDayg(Constants.DAYT_TYPE[0]);
 			mDayt.setVisibility(View.VISIBLE);
 			mDayUnit.setVisibility(View.VISIBLE);
 		}
+
 		mDayType.setOnItemSelectedListener(new OnItemSelectedListenerImpl() {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-				leave.setDayg(Constants.DAYT_TYPE[i]);
+				egress.setDayg(Constants.DAYT_TYPE[i]);
 				switch (i) {
 					case 0://多天
 						mDayt.setVisibility(View.VISIBLE);
 						mDayUnit.setVisibility(View.VISIBLE);
 						break;
 					case 1://一天
-						leave.setDayt("1.0");
+						egress.setDayt("1.0");
 						mDayt.setVisibility(View.INVISIBLE);
 						mDayUnit.setVisibility(View.INVISIBLE);
 						break;
@@ -478,10 +409,10 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 					case 2://半天
 						mDayt.setVisibility(View.INVISIBLE);
 						mDayUnit.setVisibility(View.INVISIBLE);
-						leave.setDayt("0.5");
+						egress.setDayt("0.5");
 						break;
 				}
-				mDayt.setText(leave.getDayt());
+				mDayt.setText(egress.getDayt());
 			}
 		});
 
@@ -495,20 +426,20 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 	@OnClick({R.id.bt_reason, R.id.bt_opinion1, R.id.bt_opinion2})
 	public void onWriteClicked(View view) {
 		new EditFragment(view.getId(),
-			String.valueOf(leave.getWf().getId()),
-			String.valueOf(leave.getItemid()),
-			leave.getOpinions().toArray(new String[]{})).show(getFragmentManager(), "write");
+			String.valueOf(egress.getWf().getId()),
+			String.valueOf(egress.getItemid()),
+			egress.getOpinions().toArray(new String[]{})).show(getFragmentManager(), "write");
 	}
 
 	/**
 	 * 切换视图中的按钮显示状态
 	 */
 	private void switchDisplayBtns() {
-		String opinionField = leave.getOpinionfield();
-		String backlaststep = leave.getBacklaststep();
+		String opinionField = egress.getOpinionfield();
+		String backlaststep = egress.getBacklaststep();
 		switch (task) {
 			case LocalConstants.TASK_NEW://如果是新申请请休假，显示"填写事由"、"附件上传"、"保存"、"提交"的按键
-				if (StrKit.notBlank(leave.getReason())) {
+				if (StrKit.notBlank(egress.getReason())) {
 					mSubmitBtns.get(0).setVisibility(View.VISIBLE);
 					mSubmitBtns.get(1).setVisibility(View.VISIBLE);
 				}
@@ -524,12 +455,12 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 				mApprovedate.setKeyListener(null);
 				if (opinionField.equals("opinion1")) {
 					mWriteBtns.get(1).setVisibility(View.VISIBLE);
-					if (StrKit.notBlank(leave.getOpinion1())) {
+					if (StrKit.notBlank(egress.getOpinion1())) {
 						mSubmitBtns.get(1).setVisibility(View.VISIBLE);
 					}
 				} else if (opinionField.equals("opinion2")) {
 					mWriteBtns.get(2).setVisibility(View.VISIBLE);
-					if (StrKit.notBlank(leave.getOpinion2())) {
+					if (StrKit.notBlank(egress.getOpinion2())) {
 						mSubmitBtns.get(1).setVisibility(View.VISIBLE);
 					}
 				} else {
@@ -546,6 +477,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 				mBegindate.setKeyListener(null);
 				mEnddate.setKeyListener(null);
 				mApprovedate.setKeyListener(null);
+
 				break;
 
 		}
@@ -573,9 +505,9 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 
 	//TODO 提交
 	public void submit() {
-		bc.setItem_id("" + leave.getItemid());
+		bc.setItem_id("" + egress.getItemid());
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		atype = leave.getAtype();
+		atype = egress.getAtype();
 		if (atype.equals("3")) {//环节类型 3为结束 实现完成操作
 			builder.setTitle("确认窗口");
 			builder.setMessage("此操作将结束流程，是否继续？");
@@ -650,7 +582,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 						if (checked_id != null) {
 							selectman("FaSongdoc");
 						} else {
-							Toast.makeText(LeaveDetailActivity.this, "请选择！", Toast.LENGTH_SHORT).show();
+							Toast.makeText(EgressDetailActivity.this, "请选择！", Toast.LENGTH_SHORT).show();
 						}
 
 						if (bc.getNexttype().equals("toast")) {
@@ -678,10 +610,10 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 		} else if (operation.equals("")) {
 			tempopinion = mWriteEts.get(0).getText().toString();
 		}
-		if (StrKit.notBlank(leave.getOpinionfield()) && StrKit.isBlank(tempopinion)) {
-			Toast.makeText(LeaveDetailActivity.this, "请填写意见!", Toast.LENGTH_SHORT).show();
-		} else if (task == Constants.TASK_NEW && StrKit.isBlank(leave.getReason())) {
-			Toast.makeText(LeaveDetailActivity.this, "请填写请假事由!", Toast.LENGTH_SHORT).show();
+		if (StrKit.notBlank(egress.getOpinionfield()) && StrKit.isBlank(tempopinion)) {
+			Toast.makeText(EgressDetailActivity.this, "请填写意见!", Toast.LENGTH_SHORT).show();
+		} else if (task == Constants.TASK_NEW && StrKit.isBlank(egress.getReason())) {
+			Toast.makeText(EgressDetailActivity.this, "请填写请假事由!", Toast.LENGTH_SHORT).show();
 		} else {
 			new Thread() {
 				public void run() {
@@ -701,7 +633,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 							.getData();
 						url = RequestUtil.buildUrlWithQueryString(url, queryParas);
 						InSaveMsg insaveMsg = new InSaveMsg(1348831860, "save", key);
-						insaveMsg.setModelName("leavesave");
+						insaveMsg.setModelName(Constants.SAVE_EGRESS);
 						HashMap<String, String> map = new HashMap<>();
 						map.put("nexttype", bc.getNexttype());//要改的
 						if (atype.equals("3") || operation.equals("TuiHuiShangBu")) {//如果为完成操作或是退货操作，传回当前环节
@@ -711,20 +643,21 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 						}
 						map.put("nexttodoman", bc.getUserid());//选中人的id
 						map.put("pid", bc.getPid());
-						map.put("approvedate", leave.getApprovedate());
-						map.put("begindate", leave.getBegindate());
-						map.put("enddate", leave.getEnddate());
-						map.put("type", leave.getType());
-						map.put("dayt", leave.getDayt());
-						map.put("reason", leave.getReason());
-						map.put("doc", "leave");
+						map.put("approvedate", egress.getApprovedate());
+						map.put("begindate", egress.getBegindate());
+						map.put("enddate", egress.getEnddate());
+						map.put("type", egress.getType());
+						map.put("days", egress.getDayt());
+						map.put("dayg", egress.getDayg());
+						map.put("reason", egress.getReason());
+						map.put("doc", "egress");
 						map.put("operation", operation);
-						map.put("opinionfield", leave.getOpinionfield());
+						map.put("opinionfield", egress.getOpinionfield());
 						map.put("opinion", tempopinion);
-						map.put("flow", "leave");
+						map.put("flow", "egress");
 						if (operation.equals("WanCheng")) {
-							map.put("backdate", leave.getBackdate());
-							map.put("days", leave.getDays());
+//							map.put("backdate", egress.getBackdate());
+//							map.put("days", egress.getDays());
 						}
 						insaveMsg.setModelProperty(map);
 						String postData = null;
@@ -764,7 +697,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 												pname = list.get(i).getPid();
 
 												if (amount.equals("1")) {
-													tempButton = new RadioButton(LeaveDetailActivity.this);
+													tempButton = new RadioButton(EgressDetailActivity.this);
 
 													tempButton.setTextSize(16f);
 													tempButton.setText(name + " ( " + pname + " : " + sname + " )");
@@ -830,10 +763,10 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 					inQueryMsg.setQueryName("fasong");
 					HashMap<String, String> map = new HashMap<>();
 					map.put("curitemid", bc.getItem_id());//环节ID
-					bc.setPid("" + leave.getWf().getId());
+					bc.setPid("" + egress.getWf().getId());
 					map.put("pid", bc.getPid());
-					map.put("doc", "leave");
-					map.put("condition", leave.getDayt());
+					map.put("doc", "egress");
+					map.put("condition", egress.getDayt());
 					inQueryMsg.setQueryPara(map);
 					String postData = null;
 					ObjectMapper mapper = new ObjectMapper();
@@ -869,7 +802,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 											id = list.get(i).getId();
 											ato = list.get(i).getAto();
 
-											tempButton = new RadioButton(LeaveDetailActivity.this);
+											tempButton = new RadioButton(EgressDetailActivity.this);
 											tempButton.setText(ato);
 											tempButton.setTextColor(0xFF505050);
 											tempButton.setTextSize(16f);
@@ -901,8 +834,7 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 											pname = list.get(i).getPid();
 
 											if (amount.equals("1")) {
-												tempButton = new RadioButton(LeaveDetailActivity.this);
-
+												tempButton = new RadioButton(EgressDetailActivity.this);
 												tempButton.setTextSize(16f);
 												tempButton.setText(name + " ( " + pname + " : " + sname + " )");
 												tempButton.setPadding(80, 0, 0, 0);  // 设置文字距离按钮四周的距离
@@ -929,7 +861,6 @@ public class LeaveDetailActivity extends BaseActivity implements ILeaveDetailVie
 						}, new Response.ErrorListener() {
 						@Override
 						public void onErrorResponse(VolleyError error) {
-
 							Toast.makeText(getApplicationContext(), "出错了!", Toast.LENGTH_LONG).show();
 						}
 					});

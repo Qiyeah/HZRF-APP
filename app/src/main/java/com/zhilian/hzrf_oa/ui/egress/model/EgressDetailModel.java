@@ -1,13 +1,14 @@
-package com.zhilian.hzrf_oa.ui.leave.model;
+package com.zhilian.hzrf_oa.ui.egress.model;
 
 import com.google.gson.Gson;
 import com.zhilian.hzrf_oa.base.IBaseModel;
-import com.zhilian.rxapi.bean.LeaveDetailBean;
-import com.zhilian.rxapi.constant.Constants;
 import com.zhilian.hzrf_oa.util.LogUtil;
 import com.zhilian.hzrf_oa.util.StrKit;
 import com.zhilian.rxapi.RxHttpServiceManager;
 import com.zhilian.rxapi.RxHttpUtil;
+import com.zhilian.rxapi.bean.EgressDetailBean;
+import com.zhilian.rxapi.bean.LeaveDetailBean;
+import com.zhilian.rxapi.constant.Constants;
 
 import java.util.HashMap;
 
@@ -21,8 +22,8 @@ import okhttp3.ResponseBody;
  * Created by Administrator on 2018-1-4.
  */
 
-public class LeaveDetailModel implements IBaseModel {
-    public void getLeaveDetail(String docid, String isdone, final LeaveDetailModel.CallBack callback) {
+public class EgressDetailModel implements IBaseModel {
+    public void getEgressDetail(String docid, String isdone, final EgressDetailModel.CallBack callback) {
 
         HashMap<String, String> map = new HashMap<>();
         map.put("docid",docid);
@@ -31,17 +32,17 @@ public class LeaveDetailModel implements IBaseModel {
       //  LogUtil.e(isdone);
         RxHttpServiceManager.getInstance()
             .getRxApiService()
-            .getServerData(RxHttpUtil.initUrl(), RxHttpUtil.initQueryParams(Constants.TYPE_QUERY,Constants.QUERY_LEAVE_DETAIL,map))
+            .getServerData(RxHttpUtil.initUrl(), RxHttpUtil.initQueryParams(Constants.TYPE_QUERY,Constants.QUERY_EGRESS_DETAIL,map))
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<ResponseBody>() {
                 @Override
                 public void accept(@NonNull ResponseBody responseBody) throws Exception {
                     String json = responseBody.string().trim();
-                   // LogUtil.e("detail: " + json);
+                    LogUtil.e("detail: " + json);
                     if (StrKit.notBlank(json)) {
-                        LeaveDetailBean bean = new Gson().fromJson(json, LeaveDetailBean.class);
-                        callback.onGetLeaveDetailSuccess(bean);
+                        EgressDetailBean bean = new Gson().fromJson(json, EgressDetailBean.class);
+                        callback.onGetEgressDetailSuccess(bean);
                     }
                 }
             }, new Consumer<Throwable>() {
@@ -52,7 +53,7 @@ public class LeaveDetailModel implements IBaseModel {
             });
     }
 
-    public void saveOpinion(String saveModel, LeaveDetailBean json, final CallBack1 callBack1) {
+    public void saveOpinion(String saveModel, EgressDetailBean json, final CallBack callBack1) {
         HashMap<String, String> map = new HashMap<>();
         map.put("itemid", String.valueOf(json.getWf().getItemid()));
         String opinionfield = json.getOpinionfield();
@@ -85,44 +86,16 @@ public class LeaveDetailModel implements IBaseModel {
             });
 }
 
-    public void getLeaveDayt(String start, String end, final CallBack2 callBack) {
-        HashMap<String,String> map  = new HashMap<>();
-        map.put("sdate",start);
-        map.put("edate",end);
-        RxHttpServiceManager.getInstance()
-                .getRxApiService()
-                .getServerData(RxHttpUtil.initUrl(), RxHttpUtil.initQueryParams(Constants.TYPE_QUERY,Constants.QUERY_LEAVE_DAYT,map))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ResponseBody>() {
-                    @Override
-                    public void accept(ResponseBody responseBody) throws Exception {
-                        String result = new String(responseBody.bytes());
-                       // LogUtil.e("getdayt = "+result);
-                        callBack.onGetLeaveDaytSuccess(result);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                       // callBack1.onSaveOpinionFailure(throwable.getCause().getMessage());
-                        LogUtil.e("getdayt = "+throwable.getCause().getMessage());
-                    }
-                });
-    }
-    public interface CallBack{
 
-        void onGetLeaveDetailSuccess(LeaveDetailBean bean);
+
+
+    public interface CallBack {
+        void onGetEgressDetailSuccess(EgressDetailBean bean);
 
         void onDisconnected(String message);
-    }
-
-    public interface CallBack1 {
-        void onSaveOpinionFailure(String message);
-
         void onSaveOpinionSuccess(String result);
+
+        void onSaveOpinionFailure(String result);
     }
 
-    public interface CallBack2 {
-        void onGetLeaveDaytSuccess(String result);
-    }
 }

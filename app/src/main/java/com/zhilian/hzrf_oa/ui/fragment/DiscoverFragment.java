@@ -26,7 +26,7 @@ import com.zhilian.hzrf_oa.ui.activity.NoticeAnnouncementActivity;
 import com.zhilian.hzrf_oa.ui.activity.PersonalAgendaActivity;
 import com.zhilian.hzrf_oa.ui.activity.ExamineManagerActivity;
 import com.zhilian.hzrf_oa.ui.activity.ReceiveManageActivity;
-import com.zhilian.hzrf_oa.ui.egress.EgressManagerActivity;
+import com.zhilian.hzrf_oa.ui.egress.view.EgressManagerActivity;
 import com.zhilian.hzrf_oa.ui.leave.view.LeaveManagerActivity;
 import com.zhilian.hzrf_oa.ui.widget.MyGridView;
 

@@ -2,11 +2,10 @@ package com.zhilian.hzrf_oa.ui.leave.model;
 
 
 import com.google.gson.Gson;
-import com.zhilian.hzrf_oa.json.HttpUtil;
 import com.zhilian.hzrf_oa.util.LogUtil;
-import com.zhilian.rxapi.bean.DoneBean;
-import com.zhilian.rxapi.bean.MyLeaveBean;
-import com.zhilian.rxapi.bean.TodoBean;
+import com.zhilian.rxapi.bean.LeaveDoneBean;
+import com.zhilian.rxapi.bean.LeaveMineBean;
+import com.zhilian.rxapi.bean.LeaveTodoBean;
 import com.zhilian.rxapi.constant.Constants;
 import com.zhilian.rxapi.RxHttpServiceConstants;
 import com.zhilian.rxapi.RxHttpServiceManager;
@@ -40,12 +39,17 @@ public class LeaveModel implements ILeaveModel {
 				@Override
 				public void accept(@NonNull ResponseBody responseBody) throws Exception {
 					String json = new String(responseBody.bytes());
-					LogUtil.e("applies:"+json);
+					LogUtil.e("applies:" + json);
 					if (json.equals(RxHttpServiceConstants.RESPONSE_ERROR)) {
 						callBack.onDisconnected();
 					} else {
-						callBack.loadApplies(new Gson().fromJson(json, TodoBean.class).getList());
+						callBack.loadApplies(new Gson().fromJson(json, LeaveTodoBean.class).getList());
 					}
+				}
+			}, new Consumer<Throwable>() {
+				@Override
+				public void accept(Throwable throwable) throws Exception {
+					LogUtil.e(throwable.getMessage());
 				}
 			});
 	}
@@ -65,7 +69,7 @@ public class LeaveModel implements ILeaveModel {
 					if (json.equals(RxHttpServiceConstants.RESPONSE_ERROR)) {
 						callBack.onDisconnected();
 					} else {
-						callBack.loadApproves(new Gson().fromJson(json, DoneBean.class).getList());
+						callBack.loadApproves(new Gson().fromJson(json, LeaveDoneBean.class).getList());
 					}
 				}
 			});
@@ -86,7 +90,7 @@ public class LeaveModel implements ILeaveModel {
 					if (json.equals(RxHttpServiceConstants.RESPONSE_ERROR)) {
 						callBack.onDisconnected();
 					} else {
-						callBack.loadMyApplies(new Gson().fromJson(json, MyLeaveBean.class).getList());
+						callBack.loadMyApplies(new Gson().fromJson(json, LeaveMineBean.class).getList());
 					}
 				}
 			});

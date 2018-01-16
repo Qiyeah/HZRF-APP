@@ -102,12 +102,12 @@ public class InnerSendService extends Service {
 	class PollingThread extends Thread {
 		@Override
 		public void run() {
-			LogUtil.e("Polling...");
+			LogUtil.d("Polling...");
 			count++;
 			if (count % 5 == 0) {
 				addData();
 				//initNotifiManager();
-				LogUtil.e("New message!");
+				LogUtil.d("New message!");
 			}
 		}
 	}

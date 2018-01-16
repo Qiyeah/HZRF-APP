@@ -6,7 +6,7 @@ import java.util.List;
  * Created by zhilian on 2018/1/12.
  */
 
-public class MyLeaveBean {
+public class LeaveMineBean {
 
 	private List<ItemBean> list;
 

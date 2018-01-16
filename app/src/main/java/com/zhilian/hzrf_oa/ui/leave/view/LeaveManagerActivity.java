@@ -16,12 +16,11 @@ import com.zhilian.hzrf_oa.net_exception.ITimeOutException;
 import com.zhilian.hzrf_oa.net_exception.TimeOutException;
 import com.zhilian.hzrf_oa.base.BaseActivity;
 import com.zhilian.hzrf_oa.base.BaseFragment;
-import com.zhilian.rxapi.bean.DoneBean;
-import com.zhilian.rxapi.bean.MyLeaveBean;
+import com.zhilian.rxapi.bean.LeaveDoneBean;
+import com.zhilian.rxapi.bean.LeaveMineBean;
 import com.zhilian.rxapi.bean.TodoItemBean;
 import com.zhilian.rxapi.constant.Constants;
 import com.zhilian.hzrf_oa.ui.leave.presenter.LeavePresenter;
-import com.zhilian.hzrf_oa.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -155,7 +154,7 @@ public class LeaveManagerActivity extends BaseActivity  implements ILeaveView {
      */
     @Override
     public void onInitAppliesSuccess(List<TodoItemBean> list) {
-        mTabs.get(0).notifyAppliesDataChange(list);
+        mTabs.get(0).notifyTodoDataChange(list);
     }
 
     /**
@@ -164,8 +163,8 @@ public class LeaveManagerActivity extends BaseActivity  implements ILeaveView {
      * @param root
      */
     @Override
-    public void onInitApprovesSuccess(List<DoneBean.DoneItemBean> root) {
-        mTabs.get(1).notifyApprovesDataChange(root);
+    public void onInitApprovesSuccess(List<LeaveDoneBean.DoneItemBean> root) {
+        mTabs.get(1).notifyDoneDataChange(root);
     }
 
     @Override
@@ -181,8 +180,8 @@ public class LeaveManagerActivity extends BaseActivity  implements ILeaveView {
     }
 
     @Override
-    public void onInitMyAppliesSuccess(List<MyLeaveBean.ItemBean> root) {
-        mTabs.get(2).notifyMyAppliesDataChange(root);
+    public void onInitMyAppliesSuccess(List<LeaveMineBean.ItemBean> root) {
+        mTabs.get(2).notifyMineDataChange(root);
     }
 
     /**

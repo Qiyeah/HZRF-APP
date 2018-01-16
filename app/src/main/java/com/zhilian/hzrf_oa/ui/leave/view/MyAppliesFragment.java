@@ -31,12 +31,10 @@ import com.zhilian.api.ParaMap;
 import com.zhilian.api.RequestUtil;
 import com.zhilian.api.Sign;
 import com.zhilian.hzrf_oa.R;
-import com.zhilian.hzrf_oa.adapter.ApprovesAdapter;
 import com.zhilian.hzrf_oa.adapter.MyAppliesAdapter;
 import com.zhilian.hzrf_oa.common.BusinessContant;
 import com.zhilian.hzrf_oa.base.BaseFragment;
-import com.zhilian.rxapi.bean.DoneBean;
-import com.zhilian.rxapi.bean.MyLeaveBean;
+import com.zhilian.rxapi.bean.LeaveMineBean;
 import com.zhilian.rxapi.constant.Constants;
 import com.zhilian.hzrf_oa.ui.widget.CustomListView;
 
@@ -46,13 +44,11 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-import static com.zhilian.rxapi.bean.MyLeaveBean.*;
-
 /**
  * Created by Administrator on 2017-12-29.
  */
 
-public class MyAppliesFragment extends BaseFragment {
+public class MyAppliesFragment extends BaseFragment<LeaveMineBean.ItemBean> {
     @BindView(R.id.view)
     View mView;
     @BindView(android.R.id.list)
@@ -65,8 +61,8 @@ public class MyAppliesFragment extends BaseFragment {
     RelativeLayout mNoinfo;
     private ImageView search;
     private MyAppliesAdapter mAdapter;
-    private List<MyLeaveBean.ItemBean> mApproves;
-    private List<MyLeaveBean.ItemBean> list;
+    private List<LeaveMineBean.ItemBean> mApproves;
+    private List<LeaveMineBean.ItemBean> list;
 
     @Override
     protected void initView() {
@@ -111,7 +107,7 @@ public class MyAppliesFragment extends BaseFragment {
         }
     }
     @Override
-    public void notifyMyAppliesDataChange(List<MyLeaveBean.ItemBean> list) {
+    public void notifyMineDataChange(List<LeaveMineBean.ItemBean> list) {
         mApproves = list;
         if (null != getActivity()) {
             if (null == mAdapter) {
@@ -175,7 +171,7 @@ public class MyAppliesFragment extends BaseFragment {
                     }
                     mNoinfo.setVisibility(View.GONE);
                     try {
-                        MyLeaveBean page = JSON.parseObject(response.toString(), MyLeaveBean.class);
+                        LeaveMineBean page = JSON.parseObject(response.toString(), LeaveMineBean.class);
                         list = page.getList();
                         if (list.size()>0){
                             pageNumbers++;

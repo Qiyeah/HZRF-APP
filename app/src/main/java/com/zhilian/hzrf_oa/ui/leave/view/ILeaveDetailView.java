@@ -1,20 +1,14 @@
 package com.zhilian.hzrf_oa.ui.leave.view;
 
 import com.zhilian.hzrf_oa.base.IBaseView;
+import com.zhilian.hzrf_oa.base.IDetailBaseView;
 import com.zhilian.rxapi.bean.LeaveDetailBean;
 
 /**
  * Created by Administrator on 2018-1-2.
  */
 
-public interface ILeaveDetailView extends IBaseView {
-    void setApplyDate(String date);
-    void setBeginDate(String date);
-    void setEndDate(String date);
-    void setBackDate(String date);
-    void onReasonChanged(String reason);
-    void onOpinion1Changed(String opinion);
-    void onOpinion2Changed(String opinion);
+public interface ILeaveDetailView extends IDetailBaseView {
 
     void onGetLeaveDetailSuccess(LeaveDetailBean bean);
 

@@ -1,5 +1,4 @@
-package com.zhilian.hzrf_oa.ui.leave.view;
-
+package com.zhilian.hzrf_oa.ui.egress.view;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -31,13 +30,16 @@ import com.zhilian.api.ParaMap;
 import com.zhilian.api.RequestUtil;
 import com.zhilian.api.Sign;
 import com.zhilian.hzrf_oa.R;
-import com.zhilian.hzrf_oa.adapter.AppliesAdapter;
-import com.zhilian.hzrf_oa.common.BusinessContant;
+import com.zhilian.hzrf_oa.adapter.EgressAdapter;
+import com.zhilian.hzrf_oa.adapter.EgressMineAdapter;
 import com.zhilian.hzrf_oa.base.BaseFragment;
-import com.zhilian.rxapi.bean.LeaveTodoBean;
-import com.zhilian.rxapi.bean.TodoItemBean;
-import com.zhilian.rxapi.constant.Constants;
+import com.zhilian.hzrf_oa.common.BusinessContant;
+import com.zhilian.hzrf_oa.ui.leave.view.LeaveDetailActivity;
 import com.zhilian.hzrf_oa.ui.widget.CustomListView;
+import com.zhilian.hzrf_oa.util.LogUtil;
+import com.zhilian.rxapi.bean.EgressBean;
+import com.zhilian.rxapi.bean.EgressMineBean;
+import com.zhilian.rxapi.constant.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,10 +49,11 @@ import java.util.Map;
 import butterknife.BindView;
 
 /**
- * Created by Administrator on 2017-12-29.
+ * Created by zhilian on 2018/1/15.
  */
 
-public class AppliesFragment extends BaseFragment<TodoItemBean> {
+public class DoneEgressFragment extends BaseFragment<EgressBean.ListBean> {
+
 
 	@BindView(R.id.view)
 	View mView;
@@ -62,14 +65,12 @@ public class AppliesFragment extends BaseFragment<TodoItemBean> {
 	ImageView mImageview;
 	@BindView(R.id.noinfo)
 	RelativeLayout mNoinfo;
+
 	private ImageView search;
-	private AppliesAdapter mAdapter;
-	private List<TodoItemBean> mApplies = new ArrayList<>();
-	private List<TodoItemBean> list;
 
-	public AppliesFragment() {
-
-	}
+	private EgressAdapter mAdapter;
+	private List<EgressBean.ListBean> mSource = new ArrayList<>();
+	private List<EgressBean.ListBean> list;
 
 	@Override
 	protected void initView() {
@@ -89,67 +90,51 @@ public class AppliesFragment extends BaseFragment<TodoItemBean> {
 				//TodoItemBean item = mApplies.get(position-1);
 				//LogUtil.e("item="+item);
 
-				Intent intent = new Intent(getActivity(), LeaveDetailActivity.class);
-				if (mApplies.get(position - 1).getActive().equals("申请")) {
-					intent.putExtra("task", Constants.TASK_NEW);
-				} else {
-					intent.putExtra("task", Constants.TASK_TODO);
-				}
-				//LogUtil.e("docid = "+mApplies.get(position-1).getDocid());
+				Intent intent = new Intent(getActivity(), EgressDetailActivity.class);
+				intent.putExtra("task", Constants.TASK_DONE);
+				LogUtil.e("docid = "+mSource.get(position-1).getDocid());
 				intent.putExtra("index", position - 1);
-				intent.putExtra("docid", mApplies.get(position - 1).getDocid());
+				intent.putExtra("docid", ""+mSource.get(position - 1).getDocid());
 				intent.putExtra("isdone", "0");
-				startActivityForResult(intent, Constants.TASK_TODO);
-			//	Toast.makeText(getActivity(), "click item " + position, Toast.LENGTH_SHORT).show();
+				startActivityForResult(intent, Constants.TASK_DONE);
+				//	Toast.makeText(getActivity(), "click item " + position, Toast.LENGTH_SHORT).show();
 			}
 		});
-
 	}
 
 	@Override
 	protected int layoutRes() {
-		return R.layout.layout_leave_list;
+		return R.layout.layout_egress_list;
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		//LogUtil.e("requestCode = "+requestCode);
-		mApplies.remove(data.getIntExtra("index", 0));
+	public void notifyDoneDataChange(List<EgressBean.ListBean> list) {
+		if (null != mSource) {
+			mSource.clear();
+		}
+		for (EgressBean.ListBean datum : list) {
+			mSource.add(datum);
+		}
 		mAdapter.notifyDataSetChanged();
+		mList.onLoadComplete();
+		initView();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (null != mApplies){
-			mAdapter = new AppliesAdapter(mApplies, getActivity());
+		if (null != mSource){
+			mAdapter = new EgressAdapter( getActivity(),mSource);
 			mList.setAdapter(mAdapter);
 			mList.onLoadComplete();
 			initView();
 		}
 	}
-
-	public void notifyTodoDataChange(List<TodoItemBean> data) {
-		if (null != mApplies) {
-			mApplies.clear();
-		}
-		for (TodoItemBean datum : data) {
-			mApplies.add(datum);
-		}
-		if (null != getActivity()) {
-			if (null == mAdapter) {
-				mAdapter = new AppliesAdapter(mApplies, getActivity());
-				mList.setAdapter(mAdapter);
-				initView();
-			} else {
-				mAdapter.notifyDataSetChanged();
-			}
-			mList.onLoadComplete();
-		}
-
-
-	}
-
+	private EditText editText;
+	private ImageView ivDeleteText;
+	private PopupWindow popupWindow;
+	private TextView request;
+	private LinearLayout menu;
 	Integer pageNumber = 1;//添加数据页码
 	Integer pageNumbers = 1;//搜索数据页码
 	Handler myhandler = new Handler();
@@ -159,97 +144,6 @@ public class AppliesFragment extends BaseFragment<TodoItemBean> {
 			mAdapter.notifyDataSetChanged();
 		}
 	};
-
-	public void search(String condition) {
-		BusinessContant bc = new BusinessContant();
-		String key = bc.getCONFIRM_ID();
-		String url = bc.URL;
-		String token = "1lj4hbato30kl1ppytwa1ueqdn";
-		final String encodingAesKey = "InVjlo7czsOWrCSmTPgEUXBzlFnmqpNMQU3ZfilULHyHZiRjVUhxxWpexhYH6f4i";
-		Map<String, String> ret = Sign.sign(url, token, encodingAesKey);
-		String signature = ret.get("signature");
-		String nonceStr = ret.get("nonceStr");
-		String timestamp = ret.get("timestamp");
-		Map<String, String> queryParas = ParaMap.create("accessToken", token)
-			.put("nonce", nonceStr)
-			.put("timestamp", timestamp)
-			.put("signature", signature)
-			.getData();
-		url = RequestUtil.buildUrlWithQueryString(url, queryParas);
-		InQueryMsg inQueryMsg = new InQueryMsg(1348831860, "query", key);
-		inQueryMsg.setQueryName(Constants.QUERY_LEAVE_TODO);
-		HashMap<String, String> map = new HashMap<>();
-		map.put("projectName", "");
-		map.put("condition", condition);
-		map.put("pageNumber", String.valueOf(pageNumbers));
-		inQueryMsg.setQueryPara(map);
-		String postData = null;
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			postData = mapper.writeValueAsString(inQueryMsg);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-
-		RequestQueue requestQueue = RequestUtil.getRequestQueue();
-
-		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
-			new Response.Listener<String>() {
-				@Override
-				public void onResponse(String response) {
-					if (pageNumbers == 1) {
-						mApplies.clear();
-					}
-					mNoinfo.setVisibility(View.GONE);
-					try {
-						LeaveTodoBean page = JSON.parseObject(response.toString(), LeaveTodoBean.class);
-						list = page.getList();
-						if (list.size() > 0) {
-							pageNumbers++;
-							for (int i = 0; i < list.size(); i++) {
-								mApplies.add(list.get(i));
-							}
-							if (pageNumbers == 2) {
-								mAdapter = new AppliesAdapter(mApplies, getActivity());
-								mList.setAdapter(mAdapter);
-							} else if (pageNumbers > 2) {
-								if (mList != null) {
-									mList.onLoadComplete();
-								}
-								myhandler.post(eChanged);
-							}
-						} else {
-							if (pageNumbers == 1) {
-								mAdapter = new AppliesAdapter(mApplies, getActivity());
-								mList.setAdapter(mAdapter);
-							} else if (pageNumbers > 1) {
-								if (mList != null) {
-									mList.onLoadComplete();
-								}
-								Toast.makeText(getActivity(), "没有更多数据！", Toast.LENGTH_SHORT).show();
-							}
-
-						}
-
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}, new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
-			}
-		});
-		requestQueue.add(jsonRequest);
-	}
-
-	private EditText editText;
-	private ImageView ivDeleteText;
-	private PopupWindow popupWindow;
-	private TextView request;
-	private LinearLayout menu;
-
 	private void showPopupWindow() {
 		View contentView = getActivity().getLayoutInflater().inflate(R.layout.search_in_service_layout, null);
 		editText = (EditText) contentView.findViewById(R.id.condition);
@@ -330,6 +224,87 @@ public class AppliesFragment extends BaseFragment<TodoItemBean> {
 			}
 		});
 	}
+	public void search(String condition) {
+		BusinessContant bc = new BusinessContant();
+		String key = bc.getCONFIRM_ID();
+		String url = bc.URL;
+		String token = "1lj4hbato30kl1ppytwa1ueqdn";
+		final String encodingAesKey = "InVjlo7czsOWrCSmTPgEUXBzlFnmqpNMQU3ZfilULHyHZiRjVUhxxWpexhYH6f4i";
+		Map<String, String> ret = Sign.sign(url, token, encodingAesKey);
+		String signature = ret.get("signature");
+		String nonceStr = ret.get("nonceStr");
+		String timestamp = ret.get("timestamp");
+		Map<String, String> queryParas = ParaMap.create("accessToken", token)
+			.put("nonce", nonceStr)
+			.put("timestamp", timestamp)
+			.put("signature", signature)
+			.getData();
+		url = RequestUtil.buildUrlWithQueryString(url, queryParas);
+		InQueryMsg inQueryMsg = new InQueryMsg(1348831860, "query", key);
+		inQueryMsg.setQueryName(Constants.QUERY_LEAVE_TODO);
+		HashMap<String, String> map = new HashMap<>();
+		map.put("projectName", "");
+		map.put("condition", condition);
+		map.put("pageNumber", String.valueOf(pageNumbers));
+		inQueryMsg.setQueryPara(map);
+		String postData = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			postData = mapper.writeValueAsString(inQueryMsg);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 
+		RequestQueue requestQueue = RequestUtil.getRequestQueue();
 
+		JsonRequest jsonRequest = new JsonStringRequest(Request.Method.POST, url, postData,
+			new Response.Listener<String>() {
+				@Override
+				public void onResponse(String response) {
+					if (pageNumbers == 1) {
+						mSource.clear();
+					}
+					mNoinfo.setVisibility(View.GONE);
+					try {
+						EgressBean page = JSON.parseObject(response.toString(), EgressBean.class);
+						list = page.getList();
+						if (list.size() > 0) {
+							pageNumbers++;
+							for (int i = 0; i < list.size(); i++) {
+								mSource.add(list.get(i));
+							}
+							if (pageNumbers == 2) {
+								mAdapter = new EgressAdapter( getActivity(),mSource);
+								mList.setAdapter(mAdapter);
+							} else if (pageNumbers > 2) {
+								if (mList != null) {
+									mList.onLoadComplete();
+								}
+								myhandler.post(eChanged);
+							}
+						} else {
+							if (pageNumbers == 1) {
+								mAdapter = new EgressAdapter(getActivity(),mSource);
+								mList.setAdapter(mAdapter);
+							} else if (pageNumbers > 1) {
+								if (mList != null) {
+									mList.onLoadComplete();
+								}
+								Toast.makeText(getActivity(), "没有更多数据！", Toast.LENGTH_SHORT).show();
+							}
+
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
+			}
+		});
+		requestQueue.add(jsonRequest);
+	}
 }

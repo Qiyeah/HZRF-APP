@@ -29,7 +29,7 @@ public interface Constants extends RxHttpServiceConstants{
     /**
      * *********************** 资源定义 ***********************
      */
-    String[] LEAVE_DAYT_TYPE ={"多天","一天","上午","下午"};
+    String[] DAYT_TYPE ={"多天","一天","上午","下午"};
 
 
 

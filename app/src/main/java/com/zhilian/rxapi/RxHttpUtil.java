@@ -24,14 +24,14 @@ import okhttp3.ResponseBody;
 
 public class RxHttpUtil {
 
-    public static String initQueryParams(String type, String method, HashMap<String, String> params){
+    public static String initQueryParams(String type, String method, Map<String, String> params){
         InQueryMsg inQueryMsg = new InQueryMsg(1111111111, type, LocalConstants.APP_KEY);
         inQueryMsg.setQueryPara(params);
         inQueryMsg.setQueryName(method);
         String postData = new GsonBuilder().disableHtmlEscaping().create().toJson(inQueryMsg);
         return StrKit.notBlank(postData)?postData:"";
     }
-    public static String initSaveParams(String type,String method,HashMap<String,String> params){
+    public static String initSaveParams(String type,String method,Map<String,String> params){
         InSaveMsg msg = new InSaveMsg(1111111111,type,LocalConstants.APP_KEY);
         msg.setModelName(method);
         msg.setModelProperty(params);

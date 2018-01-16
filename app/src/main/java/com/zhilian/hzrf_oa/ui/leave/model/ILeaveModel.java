@@ -2,8 +2,7 @@ package com.zhilian.hzrf_oa.ui.leave.model;
 
 
 import com.zhilian.hzrf_oa.base.IBaseModel;
-import com.zhilian.rxapi.bean.DoneBean;
-import com.zhilian.rxapi.bean.MyLeaveBean;
+import com.zhilian.rxapi.bean.LeaveMineBean;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +44,7 @@ public interface ILeaveModel<T> extends IBaseModel<T> {
         void loadApproves(T t);
         void onDisconnected();
 
-        void loadMyApplies(List<MyLeaveBean.ItemBean> list);
+        void loadMyApplies(List<LeaveMineBean.ItemBean> list);
     }
 
 }

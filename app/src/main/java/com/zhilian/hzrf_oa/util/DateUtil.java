@@ -37,7 +37,7 @@ public class DateUtil {
         }
         return date;
     }
-    public int diffDays(String date2, String date1){
+    public double diffDays(String date2, String date1){
         return (int) ((str2Date(date2).getTime() - str2Date(date1).getTime()) / (1000*3600*24));
     }
     public int[] splitDate(String strDate){

@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Administrator on 2018-1-4.
  */
 
-public class TodoBean implements Serializable {
+public class LeaveTodoBean implements Serializable {
     private static final long serialVersionUID = 1124030774575179982L;
 
     private List<TodoItemBean> list;

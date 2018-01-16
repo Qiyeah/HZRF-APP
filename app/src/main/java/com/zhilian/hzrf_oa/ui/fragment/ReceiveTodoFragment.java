@@ -65,7 +65,6 @@ public class ReceiveTodoFragment extends CustomListFragment implements CustomLis
     private EditText editText;
     private ImageView ivDeleteText;
     private View view;
-    private ListView listView;// 收文待办列表
     private LinearLayout menu;
 
     private RelativeLayout noinfo;//没有数据时显示的文字

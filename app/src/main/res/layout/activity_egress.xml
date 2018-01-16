@@ -31,7 +31,19 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/iv_back"
             android:layout_toEndOf="@+id/iv_back"/>
+        <Button
+            android:id="@+id/bt_apply"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/iv_search"
+            android:layout_marginEnd="9dp"
 
+
+            android:layout_marginRight="9dp"
+            android:layout_toLeftOf="@+id/iv_search"
+            android:layout_toStartOf="@+id/iv_search"
+            android:background="@drawable/selector_apply"
+            android:visibility="visible"/>
         <ImageView
             android:id="@+id/iv_search"
             android:layout_width="30dp"

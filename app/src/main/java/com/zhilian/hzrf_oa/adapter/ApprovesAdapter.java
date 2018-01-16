@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhilian.hzrf_oa.R;
-import com.zhilian.rxapi.bean.DoneBean;
+import com.zhilian.rxapi.bean.LeaveDoneBean;
 import com.zhilian.rxapi.constant.Constants;
 import com.zhilian.hzrf_oa.util.StrKit;
 
@@ -31,10 +31,10 @@ public class ApprovesAdapter extends BaseAdapter {
     TextView mTvState;
     @BindView(R.id.tv_date)
     TextView mTvDate;
-    private List<DoneBean.DoneItemBean> data;
+    private List<LeaveDoneBean.DoneItemBean> data;
     private Context mContext;
 
-    public ApprovesAdapter(List<DoneBean.DoneItemBean> data, Context context) {
+    public ApprovesAdapter(List<LeaveDoneBean.DoneItemBean> data, Context context) {
         this.data = data;
         mContext = context;
     }
@@ -56,7 +56,7 @@ public class ApprovesAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        DoneBean.DoneItemBean leave = data.get(i);
+        LeaveDoneBean.DoneItemBean leave = data.get(i);
         if (null == view) {
             view = LayoutInflater.from(mContext).inflate(R.layout.leave_item, viewGroup, false);
             ButterKnife.bind(this, view);
@@ -67,7 +67,7 @@ public class ApprovesAdapter extends BaseAdapter {
         return view;
     }
 
-    private String generateItemTitle(DoneBean.DoneItemBean leave) {
+    private String generateItemTitle(LeaveDoneBean.DoneItemBean leave) {
         StringBuilder sb = new StringBuilder();
         sb.append(leave.getName())
                 .append("申请了");

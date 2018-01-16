@@ -34,7 +34,7 @@ import com.zhilian.hzrf_oa.R;
 import com.zhilian.hzrf_oa.adapter.ApprovesAdapter;
 import com.zhilian.hzrf_oa.common.BusinessContant;
 import com.zhilian.hzrf_oa.base.BaseFragment;
-import com.zhilian.rxapi.bean.DoneBean;
+import com.zhilian.rxapi.bean.LeaveDoneBean;
 import com.zhilian.rxapi.constant.Constants;
 import com.zhilian.hzrf_oa.ui.widget.CustomListView;
 
@@ -48,7 +48,7 @@ import butterknife.BindView;
  * Created by Administrator on 2017-12-29.
  */
 
-public class ApprovedFragment extends BaseFragment {
+public class ApprovedFragment extends BaseFragment<LeaveDoneBean.DoneItemBean> {
     @BindView(R.id.view)
     View mView;
     @BindView(android.R.id.list)
@@ -61,8 +61,8 @@ public class ApprovedFragment extends BaseFragment {
     RelativeLayout mNoinfo;
     private ImageView search;
     private ApprovesAdapter mAdapter;
-    private List<DoneBean.DoneItemBean> mApproves;
-    private List<DoneBean.DoneItemBean> list;
+    private List<LeaveDoneBean.DoneItemBean> mApproves;
+    private List<LeaveDoneBean.DoneItemBean> list;
 
     @Override
     protected void initView() {
@@ -105,7 +105,7 @@ public class ApprovedFragment extends BaseFragment {
        }
     }
     @Override
-    public void notifyApprovesDataChange(List<DoneBean.DoneItemBean> list) {
+    public void notifyDoneDataChange(List<LeaveDoneBean.DoneItemBean> list) {
         mApproves = list;
         if (null != getActivity()) {
             if (null == mAdapter) {
@@ -169,7 +169,7 @@ public class ApprovedFragment extends BaseFragment {
                     }
                     mNoinfo.setVisibility(View.GONE);
                     try {
-                        DoneBean page = JSON.parseObject(response.toString(), DoneBean.class);
+                        LeaveDoneBean page = JSON.parseObject(response.toString(), LeaveDoneBean.class);
                         list = page.getList();
                         if (list.size()>0){
                             pageNumbers++;

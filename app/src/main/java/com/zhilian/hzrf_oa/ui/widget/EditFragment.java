@@ -1,6 +1,7 @@
 package com.zhilian.hzrf_oa.ui.widget;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -17,10 +18,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zhilian.hzrf_oa.R;
+import com.zhilian.hzrf_oa.base.IDetailBaseView;
 import com.zhilian.hzrf_oa.entity.Opinion;
 import com.zhilian.hzrf_oa.listener.OnTextChangedListener;
 import com.zhilian.hzrf_oa.listener.OnItemSelectedListenerImpl;
-import com.zhilian.hzrf_oa.ui.leave.view.LeaveDetailActivity;
 import com.zhilian.hzrf_oa.util.OpinionUtil;
 
 import butterknife.BindView;
@@ -43,10 +44,10 @@ public class EditFragment extends DialogFragment {
     EditText mEtOpinion;
 
     private View mView;
-
+    private IDetailBaseView mDetail;
     private int mResId;
 
-    private LeaveDetailActivity mActivity;
+    private Activity mContext;
 
     private String opinionStr;
     private ArrayAdapter<String> arrayAdapter;
@@ -64,9 +65,10 @@ public class EditFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        mActivity = (LeaveDetailActivity) getActivity();
-        final AlertDialog alert = new AlertDialog.Builder(mActivity).create();
-        mView = LayoutInflater.from(mActivity).inflate(layoutRes1(), null);
+        mContext =  getActivity();
+        mDetail = (IDetailBaseView) mContext;
+        final AlertDialog alert = new AlertDialog.Builder(mContext).create();
+        mView = LayoutInflater.from(mContext).inflate(layoutRes1(), null);
         ButterKnife.bind(this, mView);
         switch (mResId) {
             case R.id.bt_reason:
@@ -134,13 +136,13 @@ public class EditFragment extends DialogFragment {
                 temp = (temp != null) ? temp : "";
                 switch (mResId) {
                     case R.id.bt_reason:
-                        mActivity.onReasonChanged(temp);
+                        mDetail.onReasonChanged(temp);
                         break;
                     case R.id.bt_opinion1:
-                        mActivity.onOpinion1Changed(temp);
+                        mDetail.onOpinion1Changed(temp);
                         break;
                     case R.id.bt_opinion2:
-                        mActivity.onOpinion2Changed(temp);
+                        mDetail.onOpinion2Changed(temp);
                         break;
                 }
 

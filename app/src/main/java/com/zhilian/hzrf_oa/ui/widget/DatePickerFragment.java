@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
 import com.zhilian.hzrf_oa.R;
+import com.zhilian.hzrf_oa.base.IDetailBaseView;
 import com.zhilian.hzrf_oa.util.DateUtil;
 import com.zhilian.hzrf_oa.util.StrKit;
 import com.zhilian.hzrf_oa.ui.leave.view.ILeaveDetailView;
@@ -21,11 +22,11 @@ import java.util.Calendar;
 
 @SuppressLint("ValidFragment")
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    private ILeaveDetailView mView;
+    private IDetailBaseView mView;
     private int mResId;
     private String mDate;
     @SuppressLint("ValidFragment")
-    public DatePickerFragment(ILeaveDetailView view, int resId, String strDate) {
+    public DatePickerFragment(IDetailBaseView view, int resId, String strDate) {
         mView = view;
         mResId = resId;
         mDate=strDate;

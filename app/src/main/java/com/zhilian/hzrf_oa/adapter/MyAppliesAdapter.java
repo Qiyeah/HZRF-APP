@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.zhilian.hzrf_oa.R;
 import com.zhilian.hzrf_oa.util.StrKit;
-import com.zhilian.rxapi.bean.DoneBean;
-import com.zhilian.rxapi.bean.MyLeaveBean;
+import com.zhilian.rxapi.bean.LeaveMineBean;
 import com.zhilian.rxapi.constant.Constants;
 
 import java.util.List;
@@ -32,10 +31,10 @@ public class MyAppliesAdapter extends BaseAdapter {
 	TextView mTvState;
 	@BindView(R.id.tv_date)
 	TextView mTvDate;
-	private List<MyLeaveBean.ItemBean> data;
+	private List<LeaveMineBean.ItemBean> data;
 	private Context mContext;
 
-	public MyAppliesAdapter(List<MyLeaveBean.ItemBean> data, Context context) {
+	public MyAppliesAdapter(List<LeaveMineBean.ItemBean> data, Context context) {
 		this.data = data;
 		mContext = context;
 	}
@@ -57,7 +56,7 @@ public class MyAppliesAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
-		MyLeaveBean.ItemBean leave = data.get(i);
+		LeaveMineBean.ItemBean leave = data.get(i);
 		if (null == view) {
 			view = LayoutInflater.from(mContext).inflate(R.layout.leave_item, viewGroup, false);
 			ButterKnife.bind(this, view);
@@ -69,7 +68,7 @@ public class MyAppliesAdapter extends BaseAdapter {
 		return view;
 	}
 
-	private String generateItemTitle(MyLeaveBean.ItemBean leave) {
+	private String generateItemTitle(LeaveMineBean.ItemBean leave) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BRACKET1).append(leave.getType()).append(Constants.BRACKET2)
 			.append(leave.getBegindate());

@@ -1,8 +1,8 @@
 package com.zhilian.hzrf_oa.ui.leave.presenter;
 
 
-import com.zhilian.rxapi.bean.DoneBean;
-import com.zhilian.rxapi.bean.MyLeaveBean;
+import com.zhilian.rxapi.bean.LeaveDoneBean;
+import com.zhilian.rxapi.bean.LeaveMineBean;
 import com.zhilian.rxapi.bean.TodoItemBean;
 import com.zhilian.hzrf_oa.ui.leave.model.ILeaveModel;
 import com.zhilian.hzrf_oa.ui.leave.model.LeaveModel;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Administrator on 2017-12-28.
  */
 
-public class LeavePresenter implements ILeavePresenter,ILeaveModel.CallBack1<List<TodoItemBean>>,ILeaveModel.CallBack2<List<DoneBean.DoneItemBean>>{
+public class LeavePresenter implements ILeavePresenter,ILeaveModel.CallBack1<List<TodoItemBean>>,ILeaveModel.CallBack2<List<LeaveDoneBean.DoneItemBean>>{
     private ILeaveModel mModel;
     private ILeaveView mView;
 
@@ -45,7 +45,7 @@ public class LeavePresenter implements ILeavePresenter,ILeaveModel.CallBack1<Lis
     }
 
     @Override
-    public void loadApproves(List<DoneBean.DoneItemBean> list) {
+    public void loadApproves(List<LeaveDoneBean.DoneItemBean> list) {
         mView.onInitApprovesSuccess(list);
     }
 
@@ -55,7 +55,7 @@ public class LeavePresenter implements ILeavePresenter,ILeaveModel.CallBack1<Lis
     }
 
     @Override
-    public void loadMyApplies(List<MyLeaveBean.ItemBean> list) {
+    public void loadMyApplies(List<LeaveMineBean.ItemBean> list) {
         mView.onInitMyAppliesSuccess(list);
     }
 

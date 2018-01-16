@@ -126,7 +126,10 @@
         </activity>
         <activity android:name=".ui.leave.view.LeaveDetailActivity"
                   android:theme="@style/Theme.Design.Light.NoActionBar"/>
-        <activity android:name=".ui.egress.EgressManagerActivity" android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".ui.egress.view.EgressManagerActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".ui.egress.view.EgressDetailActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
         <!--*******************************************************************-->
         <!-- 通讯录 -->
         <activity android:name="com.zhilian.hzrf_oa.ui.activity.AddressListActivity"/>

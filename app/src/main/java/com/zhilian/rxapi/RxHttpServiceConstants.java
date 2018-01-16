@@ -39,9 +39,14 @@ public interface RxHttpServiceConstants {
     String QUERY_LEAVE_NEW = "";//查询新申请请休假
     String QUERY_LEAVE_DETAIL= "LeaveDetail";//查询新申请请休假
     String QUERY_LEAVE_DAYT = "countWorkingDay";//查询可请假天数
+    String QUERY_EGRESS_TODO = "getEgressTodoList";//查询待办外出公干
+    String QUERY_EGRESS_DONE = "getEgressDoneList";//查询已办外出公干
+    String QUERY_MY_EGRESS = "getMyEgressList";// 获取我的外出公干列表
+    String QUERY_EGRESS_DETAIL= "EgressDetail";//查询新申请请休假
+    String SAVE_EGRESS= "egresssave";//保存外出报备
     String QUERY_FSONG = "fasong";//查询可请假天数
     String SAVE_OPINION = "editopinion";//意见保存
-    String SAVE_LEAVE_RECEIVE= "leavesave";//
+    String SAVE_LEAVE= "leavesave";//
 
     /**
      * ************************************* 错误反馈 ***************************************
